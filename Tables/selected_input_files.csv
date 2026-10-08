@@ -1,0 +1,8 @@
+input,path
+prediction,/kaggle/working/gems_FINAL_submission.tif
+ground_truth,/kaggle/working/gems_data/existing_faults.tif
+feature_stack,/kaggle/working/gems_feature_stack_20band.tif
+satellite,
+model_results,/kaggle/working/gems_enhanced_threshold_results.csv
+threshold_results,/kaggle/working/geologic_data/gems_data/threshold_analysis.csv
+feature_statistics,/kaggle/working/geologic_data/gems_data/feature_statistics.csv

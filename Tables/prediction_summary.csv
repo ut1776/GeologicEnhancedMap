@@ -1,0 +1,14 @@
+metric,value
+prediction_raster,/kaggle/working/gems_FINAL_submission.tif
+grid_width,3292
+grid_height,3730
+valid_pixels,4733111
+missing_pixels,7546049
+coverage_fraction,0.38545885874929553
+minimum,6.300333188846707e-05
+median,0.026515131816267967
+maximum,0.9343619346618652
+mean,0.06716860830783844
+standard_deviation,0.10148345679044724
+resolution_m,100.0
+crs,EPSG:32611
