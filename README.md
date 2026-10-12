@@ -1,220 +1,173 @@
 # Geologic Enhanced Mapping System (GEMS)
 
-### Machine Learning, Geophysical Data Integration, and Distance-Weighted Mineral Prospectivity Mapping
+### Machine Learning and Distance-Weighted Mineral Prospectivity Mapping
 
-GEMS (Geologic Enhanced Mapping System) is a geospatial machine-learning framework designed to integrate geophysical predictors, generate mineral prospectivity maps, characterize spatial prediction patterns, and prioritize high-prospectivity exploration targets.
+GEMS (Geologic Enhanced Mapping System) integrates geophysical predictors, machine learning, geospatial visualization, and distance-weighted prospectivity evaluation to identify and rank potential geological exploration targets.
 
-The project combines raster-based predictor integration, machine-learning inference, geospatial visualization, feature analysis, and distance-weighted evaluation into a reproducible workflow. Its outputs are intended to support geological interpretation and exploration planning, not replace field validation or establish the presence of an economic mineral deposit.
+The project generates prospectivity maps, summarizes model performance, analyzes geophysical features, and preserves tabular and visual artifacts for reproducible analysis.
+
+**Repository:** [ut1776/GeologicEnhancedMap](https://github.com/ut1776/GeologicEnhancedMap)
 
 ---
 
 ## Table of Contents
 
 1. [Project Overview](#1-project-overview)
-2. [Project Objectives](#2-project-objectives)
-3. [Study Grid and Data Characteristics](#3-study-grid-and-data-characteristics)
-4. [System Architecture](#4-system-architecture)
-5. [Workflow](#5-workflow)
-6. [Prediction Results](#6-prediction-results)
-7. [Feature and Geophysical Analysis](#7-feature-and-geophysical-analysis)
-8. [Exploration Target Prioritization](#8-exploration-target-prioritization)
-9. [Distance-Weighted Tversky Evaluation](#9-distance-weighted-tversky-evaluation)
-10. [Figures](#10-figures)
-11. [Data Tables](#11-data-tables)
-12. [Repository Structure](#12-repository-structure)
-13. [Reproducibility](#13-reproducibility)
-14. [Limitations and Future Work](#14-limitations-and-future-work)
-15. [Conclusion](#15-conclusion)
-16. [Citation](#16-citation)
+2. [Key Results and Score Summary](#2-key-results-and-score-summary)
+3. [Study Grid and Data](#3-study-grid-and-data)
+4. [Methodology](#4-methodology)
+5. [Prediction Results](#5-prediction-results)
+6. [Model Performance](#6-model-performance)
+7. [Distance-Weighted Tversky Evaluation](#7-distance-weighted-tversky-evaluation)
+8. [Prospectivity Maps](#8-prospectivity-maps)
+9. [Exploration Target Ranking](#9-exploration-target-ranking)
+10. [Feature and Geophysical Analysis](#10-feature-and-geophysical-analysis)
+11. [Available Figures](#11-available-figures)
+12. [Available CSV Tables](#12-available-csv-tables)
+13. [Repository Structure](#13-repository-structure)
+14. [Reproducibility](#14-reproducibility)
+15. [Limitations and Future Work](#15-limitations-and-future-work)
+16. [Conclusion](#16-conclusion)
+17. [Citation](#17-citation)
 
 ---
 
 ## 1. Project Overview
 
-Mineral prospectivity mapping attempts to identify locations whose geological and geophysical characteristics are consistent with known or hypothesized mineralization patterns.
+Mineral prospectivity mapping uses geological, geophysical, and other spatial evidence to identify areas that warrant further exploration.
 
-GEMS approaches this task as a spatial prediction and exploration-prioritization problem. The framework integrates geophysical raster predictors and derived features to produce a continuous prospectivity surface. It then summarizes the predicted spatial distribution, analyzes feature characteristics, and identifies high-priority candidate locations.
+GEMS approaches this problem as a spatial prediction and target-prioritization task. Multiple predictor layers are integrated into a model-generated prospectivity surface. The resulting surface is analyzed, visualized, and used to rank candidate locations for further geological investigation.
 
-The archived project reports the following principal characteristics:
+The project includes:
 
-| Characteristic              | Reported value |
-| --------------------------- | -------------: |
-| Number of predictors        |             43 |
-| Base geophysical bands      |             20 |
-| Nominal raster resolution   |          100 m |
-| Raster width                |   3,292 pixels |
-| Raster height               |   3,730 pixels |
-| Coordinate reference system |     EPSG:32611 |
-| Finite prediction pixels    |      4,733,111 |
-| Finite-pixel coverage       |         38.55% |
+* Geophysical predictor integration.
+* Machine-learning prediction and spatial mapping.
+* Prospectivity distribution statistics.
+* Model-performance summaries.
+* Distance-weighted Tversky diagnostics.
+* High-prospectivity target ranking.
+* Feature and geophysical-signature analysis.
+* Exported PNG figures and CSV tables.
 
-The reported coverage is the fraction of the nominal raster grid containing finite predictions. It should not be interpreted as the percentage of the study area containing mineralization.
+The repository preserves the archived outputs for inspection and further development.
 
-## 2. Project Objectives
+## 2. Key Results and Score Summary
 
-GEMS is designed to:
+The archived GEMS analysis reports the following results.
 
-* Integrate multiple geophysical and derived predictors into a consistent modeling workflow.
-* Generate spatially continuous prospectivity predictions wherever the required inputs support inference.
-* Visualize prospectivity in relation to geophysical signatures and spatial context.
-* Summarize predictor statistics and model performance.
-* Rank candidate exploration targets for further geological investigation.
-* Examine spatial tolerance and distance-weighted evaluation concepts.
-* Preserve figures, tabular outputs, and analysis summaries in a repository suitable for review and further development.
+| Metric                                       | Archived result |
+| -------------------------------------------- | --------------: |
+| Number of predictors                         |              43 |
+| Base geophysical bands                       |              20 |
+| Nominal raster resolution                    |           100 m |
+| Finite prediction pixels                     |       4,733,111 |
+| Finite-pixel coverage                        |          38.55% |
+| Mean ROC-AUC                                 |          0.6612 |
+| Mean PR-AUC                                  |          0.0318 |
+| Mean probabilistic distance-weighted Tversky |          0.0616 |
+| Mean best-hard distance-weighted Tversky     |          0.1148 |
+| Separate archived summary score              |          0.2502 |
+| Spatial tolerance                            |           300 m |
+| Tversky alpha                                |             0.2 |
+| Tversky beta                                 |             0.8 |
 
-The intended output is a decision-support layer for exploration screening rather than a definitive mineral-resource assessment.
+### GEMS score visualization
 
-## 3. Study Grid and Data Characteristics
+![GEMS distance-weighted Tversky score visualization](Figures/03_distance_weighted_tversky.png)
 
-The archived prediction grid has a nominal cell size of 100 m and uses **EPSG:32611**, a projected coordinate reference system based on WGS 84 / UTM zone 11N.
+*Figure 1. Archived GEMS distance-weighted Tversky score visualization.*
 
-The raster dimensions are 3,292 columns by 3,730 rows. Not every grid cell contains a finite prediction, so the valid-data footprint is smaller than the full rectangular grid.
+The associated heatmap and spatial map are also available:
 
-The workflow uses 43 predictors, including 20 base geophysical bands and additional derived or processed features.
+![Distance-weighted Tversky heatmap](Figures/03_distance_weighted_tversky_heatmap.png)
 
-### Data interpretation
+*Figure 2. Distance-weighted Tversky heatmap.*
 
-The input layers provide spatially varying information that may help distinguish locations with different geophysical signatures. The resulting prediction surface represents model-estimated prospectivity under the assumptions and limitations of the underlying data and training procedure.
+![Distance-weighted Tversky spatial map](Figures/04_distance_weighted_tversky_map.png)
 
-Before reproducing the analysis, users should verify that all input rasters share a compatible spatial reference, grid alignment, resolution, and NoData convention.
+*Figure 3. Spatial visualization of distance-weighted Tversky analysis.*
 
-## 4. System Architecture
+**Important score distinction:** The archived values 0.0616, 0.1148, and 0.2502 represent separate reported diagnostics or summaries. They must not be presented as interchangeable scores. The exact meaning of each value should be confirmed against the code and CSV record that generated it.
 
-The GEMS workflow can be summarized as follows:
+The 0.2502 value is retained here because it appears in the archived portfolio summary. It should not be described as an official competition score unless the applicable scoring implementation confirms that interpretation.
 
-1. **Input inventory:** identify the selected input files and available predictor layers.
-2. **Spatial preparation:** prepare the raster predictors on the target grid and account for missing values.
-3. **Feature integration:** assemble the predictor variables used by the model.
-4. **Model inference:** produce prospectivity predictions from the available inputs.
-5. **Spatial analysis:** examine prediction distributions, geophysical signatures, and mapped spatial patterns.
-6. **Target prioritization:** rank high-prospectivity cells or spatial targets.
-7. **Evaluation:** summarize available performance measures and distance-weighted diagnostics.
-8. **Artifact generation:** export maps, tables, and summaries for inspection and reproducibility.
+## 3. Study Grid and Data
 
-The precise implementation details of model training, calibration, and preprocessing should be established from the corresponding scripts, configuration files, and archived model artifacts before attempting an independent reproduction.
+The archived prediction grid has the following characteristics:
 
-## 5. Workflow
+| Property                    | Value        |
+| --------------------------- | ------------ |
+| Raster width                | 3,292 pixels |
+| Raster height               | 3,730 pixels |
+| Nominal resolution          | 100 m        |
+| Coordinate reference system | EPSG:32611   |
+| Number of predictors        | 43           |
+| Base geophysical bands      | 20           |
+| Finite prediction pixels    | 4,733,111    |
+| Finite-pixel coverage       | 0.3855       |
 
-### 5.1 Input preparation
+Finite-pixel coverage describes the fraction of the nominal grid with valid predictions. It does not represent the percentage of the area containing mineral deposits.
 
-The workflow inventories the selected input files and predictor layers. Raster preparation must preserve consistent spatial alignment so that each modeled cell refers to the same geographic location across predictors.
+The input layers should be checked for consistent spatial alignment, coordinate reference systems, resolution, NoData conventions, and data provenance before reproducing the analysis.
 
-### 5.2 Predictor integration
+## 4. Methodology
 
-The 43-predictor feature set combines base geophysical information with additional features. The feature-statistics table provides a starting point for reviewing predictor distributions and identifying variables that may require further quality control.
+The GEMS workflow can be summarized in the following stages.
 
-### 5.3 Prospectivity prediction
+1. **Input inventory:** identify selected source files and predictor layers.
+2. **Spatial preparation:** prepare raster inputs on a consistent grid.
+3. **Feature integration:** assemble the predictor variables.
+4. **Model inference:** generate prospectivity predictions.
+5. **Spatial visualization:** map prediction values and geophysical context.
+6. **Feature analysis:** examine predictor distributions and feature signatures.
+7. **Target ranking:** identify and rank high-prospectivity cells or targets.
+8. **Evaluation:** review model-performance metrics and distance-weighted diagnostics.
+9. **Artifact export:** preserve figures and CSV tables.
 
-The model produces a continuous prediction surface. The values are useful for relative spatial prioritization, subject to the model's calibration, training labels, and the validity of its input layers.
+The precise model architecture, preprocessing operations, and training procedure should be verified against the associated source code and model artifacts.
 
-A high prediction value should not automatically be interpreted as a probability of discovering an economic deposit unless that probabilistic interpretation has been independently validated.
+## 5. Prediction Results
 
-### 5.4 Spatial visualization
+The archived prediction surface has the following reported distribution:
 
-The generated maps show the relationship between prediction values, geographic context, selected geophysical signatures, and derived spatial indicators.
+| Statistic          |    Value |
+| ------------------ | -------: |
+| Minimum            | 0.000063 |
+| Median             |   0.0265 |
+| Mean               |   0.0672 |
+| Standard deviation |   0.1015 |
+| Maximum            |   0.9344 |
 
-### 5.5 Target ranking
+The mean prediction exceeds the median, indicating that the prediction distribution is not symmetric and includes a subset of relatively high-valued cells.
 
-Candidate cells are ranked using the archived prospectivity outputs. The top-target table provides a structured starting point for geological review and additional investigation.
+These values describe the model's output distribution. They do not independently establish calibration, geological validity, or the probability of discovering an economic deposit.
 
-### 5.6 Evaluation and reporting
-
-Performance summaries and distance-weighted diagnostics are preserved as CSV files. These records should be interpreted according to their documented definitions and should not be treated as interchangeable metrics.
-
-## 6. Prediction Results
-
-The archived prediction summary reports the following distribution:
-
-| Statistic                | Reported value |
-| ------------------------ | -------------: |
-| Minimum prediction       |       0.000063 |
-| Median prediction        |         0.0265 |
-| Mean prediction          |         0.0672 |
-| Standard deviation       |         0.1015 |
-| Maximum prediction       |         0.9344 |
-| Finite prediction pixels |      4,733,111 |
-| Finite-pixel coverage    |         0.3855 |
-
-These statistics indicate that the prediction surface is not uniformly distributed across its valid footprint. The mean is higher than the median, consistent with a distribution in which a subset of cells has comparatively high predictions.
-
-This summary alone does not establish model calibration, geological correctness, or economic significance. Those interpretations require appropriate independent evidence.
-
-### Archived model-performance metrics
-
-The archived model-performance summary reports:
-
-| Metric       | Reported value |
-| ------------ | -------------: |
-| Mean ROC-AUC |         0.6612 |
-| Mean PR-AUC  |         0.0318 |
-
-ROC-AUC and PR-AUC measure different aspects of predictive discrimination. Their interpretation depends on the validation design, the distribution of positive and negative labels, and the precise metric implementation.
-
-In particular, PR-AUC can be strongly affected by the prevalence of positive examples. The reported values should therefore be considered alongside the evaluation dataset, class balance, and validation protocol rather than interpreted in isolation.
-
-For the complete archived records, see [`model_performance.csv`](Tables/model_performance.csv) and [`prediction_summary.csv`](Tables/prediction_summary.csv).
+The complete archived summary is available in [`prediction_summary.csv`](Tables/prediction_summary.csv).
 
 ### Prediction map
 
 ![GEMS prediction map](Figures/02_GEMS_prediction_map.png)
 
-*Figure 1. GEMS prediction surface showing the spatial distribution of model-generated prospectivity values.*
+*Figure 4. GEMS prediction surface.*
 
-## 7. Feature and Geophysical Analysis
+## 6. Model Performance
 
-Feature analysis helps describe the information available to the prediction system and provides context for interpreting spatial patterns.
+The archived model-performance table reports:
 
-The archived project includes feature statistics and geophysical-signature visualizations. These artifacts can be used to examine predictor ranges, identify potentially influential spatial patterns, and guide further investigation.
+| Metric  | Mean value |
+| ------- | ---------: |
+| ROC-AUC |     0.6612 |
+| PR-AUC  |     0.0318 |
 
-Feature statistics should not be confused with model feature importance. A variable's range or variability does not establish how much it contributes to a model's predictions. Feature importance claims require a documented method, such as model-specific importance, permutation importance, or an appropriate attribution analysis.
+ROC-AUC measures ranking discrimination across classification thresholds. PR-AUC summarizes the precision-recall relationship and can be particularly sensitive to the prevalence of positive examples.
 
-### Geophysical signatures
+The values should be interpreted in the context of the validation dataset, class balance, spatial sampling strategy, and metric implementation.
 
-![GEMS geophysical signatures](Figures/03_GEMS_geophysical_signatures.png)
+A random split of spatially adjacent observations can overestimate generalization. Independent spatial validation is recommended when assessing whether the model transfers to new exploration areas.
 
-*Figure 2. Geophysical signatures used to characterize the predictor data and spatial context of the GEMS analysis.*
+See [`model_performance.csv`](Tables/model_performance.csv) for the archived metrics.
 
-### Feature statistics
-
-The full predictor statistics are available in [`feature_statistics.csv`](Tables/feature_statistics.csv).
-
-### Distance-weighted spatial diagnostics
-
-![Distance-weighted Tversky analysis](Figures/03_distance_weighted_tversky.png)
-
-*Figure 3. Archived distance-weighted Tversky analysis.*
-
-A corresponding heatmap is available here:
-
-![Distance-weighted Tversky heatmap](Figures/03_distance_weighted_tversky_heatmap.png)
-
-*Figure 4. Heatmap associated with the archived distance-weighted Tversky analysis.*
-
-The interpretation of these diagnostics depends on the exact definitions of the positive, false-positive, and false-negative contributions and the spatial weighting procedure.
-
-## 8. Exploration Target Prioritization
-
-GEMS ranks high-prospectivity cells to support subsequent geological review. Target prioritization helps convert a large raster surface into a more manageable list of locations for inspection.
-
-The archived project includes a top-target visualization and a CSV containing up to 100 ranked prospectivity targets.
-
-![Top prospectivity targets](Figures/07_top_prospectivity_targets.png)
-
-*Figure 5. Highest-ranked prospectivity targets in the archived GEMS analysis.*
-
-The associated table is [`top_100_prospectivity_targets.csv`](Tables/top_100_prospectivity_targets.csv).
-
-Target rankings are model-dependent. Before using them to direct field work, users should consider geological context, data quality, spatial clustering, access constraints, and the possibility that several high-ranked cells represent a single spatially continuous target rather than independent prospects.
-
-### Prospectivity overlay
-
-![Satellite prospectivity overlay](Figures/01_satellite_prospectivity_overlay.png)
-
-*Figure 6. Prospectivity predictions displayed with satellite or geographic context.*
-
-This overlay supports visual inspection of spatial relationships. It does not, by itself, demonstrate that predicted targets correspond to verified mineral occurrences.
-
-## 9. Distance-Weighted Tversky Evaluation
+## 7. Distance-Weighted Tversky Evaluation
 
 The conventional Tversky index is defined as:
 
@@ -232,105 +185,152 @@ where:
 * \(\alpha\) controls the penalty associated with false positives.
 * \(\beta\) controls the penalty associated with false negatives.
 
-The archived GEMS portfolio reports a spatial tolerance of **300 m**, equivalent to three nominal 100 m pixels, with:
+The archived GEMS portfolio reports a spatial tolerance of **300 m**, equivalent to three nominal 100 m pixels, with the following parameters:
 
 $$
 \alpha = 0.2,\qquad \beta = 0.8
 $$
 
-The distance-weighted implementation modifies contributions according to spatial proximity. This allows spatial offsets to be considered rather than treating every prediction-reference mismatch identically.
+The distance-weighted implementation modifies contributions according to spatial proximity. This allows the evaluation to account for the distance between predicted locations and reference targets.
 
-### Archived distance-weighted results
+### Archived evaluation diagnostics
 
-The project records multiple distance-weighted diagnostics:
+| Diagnostic                                     | Reported value |
+| ---------------------------------------------- | -------------: |
+| Mean probabilistic distance-weighted Tversky   |         0.0616 |
+| Mean best-hard distance-weighted Tversky       |         0.1148 |
+| Separate archived summary score                |         0.2502 |
+| Weighted true-positive contribution, \(TP_w\)  |      26,283.97 |
+| Weighted false-positive contribution, \(FP_w\) |     255,000.52 |
+| Weighted false-negative contribution, \(FN_w\) |      34,704.00 |
 
-| Diagnostic                                   | Reported value |
-| -------------------------------------------- | -------------: |
-| Mean probabilistic distance-weighted Tversky |         0.0616 |
-| Mean best hard distance-weighted Tversky     |         0.1148 |
-| Separate archived summary score              |         0.2502 |
-| Archived \(TP_w\) contribution               |      26,283.97 |
-| Archived \(FP_w\) contribution               |     255,000.52 |
-| Archived \(FN_w\) contribution               |      34,704.00 |
+These figures are preserved as separate archived results. Their precise aggregation and implementation should be verified before comparing them with another model or benchmark.
 
-The first two values summarize the probabilistic and best-hard diagnostics, respectively. The value 0.2502 belongs to a separate archived summary and should not be assumed to be the same statistic or aggregation as either mean above.
+### Evaluation figures
 
-The weighted contributions \(TP_w\), \(FP_w\), and \(FN_w\) are retained as reported in the archived summary. They should be interpreted according to the implementation that generated them.
+![Distance-weighted Tversky analysis](Figures/03_distance_weighted_tversky.png)
 
-**Evaluation note:** The conventional Tversky equation is included for reference. Official competition comparisons must use the exact competition scoring implementation, including its distance-weighting, matching, tolerance, aggregation, and threshold rules. A substitute approximation must not be presented as an official score.
+*Figure 5. Archived distance-weighted Tversky analysis.*
 
-The related artifacts are:
+![Distance-weighted Tversky heatmap](Figures/03_distance_weighted_tversky_heatmap.png)
+
+*Figure 6. Heatmap of the archived distance-weighted Tversky analysis.*
+
+![Distance-weighted Tversky map](Figures/04_distance_weighted_tversky_map.png)
+
+*Figure 7. Spatial representation of distance-weighted evaluation.*
+
+### Evaluation data
 
 * [`distance_weighted_tversky_summary.csv`](Tables/distance_weighted_tversky_summary.csv)
 * [`dwt_pixel_contributions.csv`](Tables/dwt_pixel_contributions.csv)
 * [`threshold_analysis.csv`](Tables/threshold_analysis.csv)
 
-The associated visualization is [`03_distance_weighted_tversky_heatmap.png`](Figures/03_distance_weighted_tversky_heatmap.png).
+**Scoring caveat:** The conventional Tversky equation is provided for reference. Official competition comparisons must use the exact competition scoring implementation, including its matching procedure, distance weighting, tolerance, thresholds, and aggregation rules. An approximate substitute must not be represented as the official score.
 
-## 10. Figures
+## 8. Prospectivity Maps
 
-The following figures are included in the repository's `Figures/` directory.
+The repository includes multiple visualizations of the prediction surface and its spatial context.
 
-### 10.1 Executive dashboard
-
-![GEMS executive dashboard](Figures/01_GEMS_executive_dashboard.png)
-
-*Figure 7. Executive overview of the GEMS project and its archived outputs.*
-
-### 10.2 Prospectivity map
+### Prospectivity map
 
 ![GEMS prospectivity map](Figures/02_GEMS_prospectivity_map.png)
 
-*Figure 8. Prospectivity visualization generated by the GEMS workflow.*
+*Figure 8. GEMS prospectivity map.*
 
-### 10.3 Prospectivity and geological lines
+### Satellite overlay
 
-![Prospectivity and geologic lines](Figures/02_prospectivity_geologic_lines.png)
+![Satellite prospectivity overlay](Figures/01_satellite_prospectivity_overlay.png)
 
-*Figure 9. Prospectivity patterns displayed with geological line context.*
+*Figure 9. Prospectivity predictions displayed with satellite or geographic context.*
 
-### 10.4 Distance-weighted Tversky map
+### Prospectivity and geological lines
 
-![Distance-weighted Tversky map](Figures/04_distance_weighted_tversky_map.png)
+![Prospectivity with geological lines](Figures/02_prospectivity_geologic_lines.png)
 
-*Figure 10. Spatial visualization of the archived distance-weighted Tversky analysis.*
+*Figure 10. Prospectivity patterns displayed with geological line context.*
 
-### 10.5 DEM, hillshade, and contours
+### Digital elevation model, hillshade, and contours
 
 ![DEM hillshade and contours](Figures/05_dem_hillshade_contours.png)
 
-*Figure 11. Digital elevation model, hillshade, and contour visualization for geographic context.*
+*Figure 11. Terrain visualization providing topographic context for spatial interpretation.*
 
-### 10.6 Feature signatures
+These figures help users inspect spatial relationships among predictions, geographic features, and geological context. Visual agreement alone does not prove the presence of mineralization.
+
+## 9. Exploration Target Ranking
+
+GEMS includes a ranked list of high-prospectivity cells or candidate targets to help prioritize further geological review.
+
+![Top prospectivity targets](Figures/07_top_prospectivity_targets.png)
+
+*Figure 12. Highest-ranked prospectivity targets in the archived GEMS analysis.*
+
+The corresponding data are available in [`top_100_prospectivity_targets.csv`](Tables/top_100_prospectivity_targets.csv).
+
+Target rankings should be interpreted as model-generated priorities rather than verified discoveries. Several nearby high-scoring cells may represent a single spatial target. Geological context, data quality, spatial clustering, and independent evidence should be considered before selecting locations for field investigation.
+
+## 10. Feature and Geophysical Analysis
+
+Feature analysis helps characterize the predictors and their spatial signatures.
+
+### Geophysical signatures
+
+![GEMS geophysical signatures](Figures/03_GEMS_geophysical_signatures.png)
+
+*Figure 13. Geophysical signatures associated with the GEMS predictor data.*
+
+### Model feature signatures
 
 ![Model feature signatures](Figures/08_model_feature_signatures.png)
 
-*Figure 12. Feature-signature visualization associated with the archived modeling analysis.*
+*Figure 14. Archived model feature-signature visualization.*
 
-The figure links above use repository-relative paths. GitHub renders them when the referenced image files exist at those exact paths and are committed to the repository. Filenames and capitalization must match the actual repository contents.
+### Feature statistics
 
-## 11. Data Tables
+The complete feature-statistics table is available in [`feature_statistics.csv`](Tables/feature_statistics.csv).
 
-The `Tables/` directory contains CSV artifacts supporting the archived analysis.
+Predictor statistics describe the input data but should not automatically be interpreted as model feature importance. Importance claims require a documented attribution method or a model-specific importance calculation.
 
-| File                                                                                    | Purpose                                                |
-| --------------------------------------------------------------------------------------- | ------------------------------------------------------ |
-| [`GEMS_portfolio_summary.csv`](Tables/GEMS_portfolio_summary.csv)                       | Portfolio-level summary of the archived analysis       |
-| [`distance_weighted_tversky_summary.csv`](Tables/distance_weighted_tversky_summary.csv) | Summary of distance-weighted Tversky diagnostics       |
-| [`dwt_pixel_contributions.csv`](Tables/dwt_pixel_contributions.csv)                     | Pixel-level or pixel-aggregated weighted contributions |
-| [`feature_statistics.csv`](Tables/feature_statistics.csv)                               | Predictor statistics                                   |
-| [`model_performance.csv`](Tables/model_performance.csv)                                 | Archived model-performance metrics                     |
-| [`prediction_summary.csv`](Tables/prediction_summary.csv)                               | Summary statistics for the prediction surface          |
-| [`prospectivity_cells.csv`](Tables/prospectivity_cells.csv)                             | Prospectivity-cell records                             |
-| [`selected_input_files.csv`](Tables/selected_input_files.csv)                           | Inventory of selected input files                      |
-| [`threshold_analysis.csv`](Tables/threshold_analysis.csv)                               | Threshold-related evaluation summaries                 |
-| [`top_100_prospectivity_targets.csv`](Tables/top_100_prospectivity_targets.csv)         | Ranked high-prospectivity target records               |
+## 11. Available Figures
 
-These tables are provided to make the archived outputs easier to inspect and reuse. Their exact column meanings, units, and aggregation rules should be confirmed from the generating code or accompanying metadata before using them in another analysis.
+The repository's `Figures/` directory contains the following archived PNG artifacts.
 
-## 12. Repository Structure
+| Figure file                                                                                    | Description                           |
+| ---------------------------------------------------------------------------------------------- | ------------------------------------- |
+| [`01_GEMS_executive_dashboard.png`](Figures/01_GEMS_executive_dashboard.png)                   | Executive dashboard                   |
+| [`01_satellite_prospectivity_overlay.png`](Figures/01_satellite_prospectivity_overlay.png)     | Satellite prospectivity overlay       |
+| [`02_GEMS_prediction_map.png`](Figures/02_GEMS_prediction_map.png)                             | Prediction surface                    |
+| [`02_GEMS_prospectivity_map.png`](Figures/02_GEMS_prospectivity_map.png)                       | Prospectivity map                     |
+| [`02_prospectivity_geologic_lines.png`](Figures/02_prospectivity_geologic_lines.png)           | Prospectivity with geological lines   |
+| [`03_GEMS_geophysical_signatures.png`](Figures/03_GEMS_geophysical_signatures.png)             | Geophysical signatures                |
+| [`03_distance_weighted_tversky.png`](Figures/03_distance_weighted_tversky.png)                 | Distance-weighted score visualization |
+| [`03_distance_weighted_tversky_heatmap.png`](Figures/03_distance_weighted_tversky_heatmap.png) | Distance-weighted heatmap             |
+| [`04_distance_weighted_tversky_map.png`](Figures/04_distance_weighted_tversky_map.png)         | Spatial evaluation map                |
+| [`05_dem_hillshade_contours.png`](Figures/05_dem_hillshade_contours.png)                       | DEM, hillshade, and contours          |
+| [`07_top_prospectivity_targets.png`](Figures/07_top_prospectivity_targets.png)                 | Ranked prospectivity targets          |
+| [`08_model_feature_signatures.png`](Figures/08_model_feature_signatures.png)                   | Model feature signatures              |
 
-The principal artifact layout is:
+## 12. Available CSV Tables
+
+The repository's `Tables/` directory contains the following archived CSV files.
+
+| CSV file                                                                                | Purpose                              |
+| --------------------------------------------------------------------------------------- | ------------------------------------ |
+| [`GEMS_portfolio_summary.csv`](Tables/GEMS_portfolio_summary.csv)                       | Portfolio-level summary              |
+| [`distance_weighted_tversky_summary.csv`](Tables/distance_weighted_tversky_summary.csv) | Distance-weighted evaluation summary |
+| [`dwt_pixel_contributions.csv`](Tables/dwt_pixel_contributions.csv)                     | Weighted pixel contributions         |
+| [`feature_statistics.csv`](Tables/feature_statistics.csv)                               | Predictor statistics                 |
+| [`model_performance.csv`](Tables/model_performance.csv)                                 | Model-performance metrics            |
+| [`prediction_summary.csv`](Tables/prediction_summary.csv)                               | Prediction distribution and coverage |
+| [`prospectivity_cells.csv`](Tables/prospectivity_cells.csv)                             | Prospectivity-cell records           |
+| [`selected_input_files.csv`](Tables/selected_input_files.csv)                           | Selected input-file inventory        |
+| [`threshold_analysis.csv`](Tables/threshold_analysis.csv)                               | Threshold-related diagnostics        |
+| [`top_100_prospectivity_targets.csv`](Tables/top_100_prospectivity_targets.csv)         | Ranked target records                |
+
+The exact column definitions, units, and aggregation rules should be verified from the generating code or accompanying metadata before reusing these tables.
+
+## 13. Repository Structure
 
 ```text
 GeologicEnhancedMap/
@@ -347,8 +347,7 @@ GeologicEnhancedMap/
 │   ├── 04_distance_weighted_tversky_map.png
 │   ├── 05_dem_hillshade_contours.png
 │   ├── 07_top_prospectivity_targets.png
-│   ├── 08_model_feature_signatures.png
-│   └── .gitkeep
+│   └── 08_model_feature_signatures.png
 └── Tables/
     ├── GEMS_portfolio_summary.csv
     ├── distance_weighted_tversky_summary.csv
@@ -359,87 +358,72 @@ GeologicEnhancedMap/
     ├── prospectivity_cells.csv
     ├── selected_input_files.csv
     ├── threshold_analysis.csv
-    ├── top_100_prospectivity_targets.csv
-    └── .gitkeep
+    └── top_100_prospectivity_targets.csv
 ```
 
-This tree describes the principal figure and table artifacts. Additional scripts, configuration files, source data, or model files may exist elsewhere in the repository.
+This is the principal artifact layout, not necessarily a complete inventory of every file in the repository.
 
-## 13. Reproducibility
+## 14. Reproducibility
 
-For a reproducible rerun or independent review:
+For a reproducible analysis:
 
-1. Clone or download the repository.
-2. Inspect the available source code and document the software environment.
-3. Verify the provenance and licensing of input data.
-4. Confirm raster coordinate systems, resolution, grid alignment, and NoData handling.
-5. Identify the exact predictor list and preprocessing procedure.
-6. Verify the trained model or training configuration used to generate predictions.
-7. Reproduce the prediction surface before comparing derived summaries.
-8. Validate metric definitions and aggregation rules against the archived evaluation implementation.
-9. Compare regenerated CSVs and figures with the archived outputs.
+1. Clone the repository and inspect the available source code.
+2. Verify the provenance and licensing of the input datasets.
+3. Confirm the coordinate reference system and alignment of all raster predictors.
+4. Document the predictor list and preprocessing steps.
+5. Identify the model version and configuration used for inference.
+6. Regenerate the prediction surface and compare its summary statistics with the archived results.
+7. Verify the exact definitions of the reported evaluation metrics.
+8. Reproduce the figures and CSV tables where source inputs and dependencies are available.
 
-The figures and tables in this repository document the archived results. Their presence alone does not guarantee that the entire pipeline can be reproduced without the original source datasets, model artifacts, dependencies, and configuration.
+The presence of exported figures and tables does not by itself guarantee that the entire workflow can be rerun without the original input datasets, model artifacts, dependencies, and configuration.
 
-## 14. Limitations and Future Work
+## 15. Limitations and Future Work
 
-### 14.1 Data coverage
+### Data coverage
 
-Only 38.55% of the nominal prediction grid contains finite predictions in the archived summary. The reasons for missing coverage should be investigated, including source-data footprints, missing predictors, preprocessing filters, and masking rules.
+The archived prediction grid has finite predictions for 38.55% of its nominal cells. The causes of missing coverage should be investigated, including input-data footprints, missing predictors, masks, and preprocessing filters.
 
-### 14.2 Validation and label quality
+### Model validation
 
-The reliability of prospectivity predictions depends on the quality and completeness of known mineral occurrences, reference targets, negative examples, and other labels used during training or evaluation.
+Reported ROC-AUC and PR-AUC values depend on the validation protocol and class balance. Spatially independent validation is recommended to assess performance in new geographic regions.
 
-Incomplete or spatially biased labels can cause apparent model performance to differ from real-world exploration performance.
+### Score consistency
 
-### 14.3 Spatial leakage
+The conventional Tversky index and distance-weighted variants are not necessarily interchangeable. Future reporting should document the exact score implementation, weighting procedure, tolerance, thresholding, and aggregation.
 
-Randomly splitting nearby spatial observations between training and evaluation can overestimate generalization. Future assessments should consider spatially separated validation, geographically independent test regions, and sensitivity to the sampling strategy.
+### Geological uncertainty
 
-### 14.4 Metric consistency
+High prospectivity scores are not proof of mineralization, grade, tonnage, recoverability, or economic viability. Independent geological evidence and field investigation remain important.
 
-ROC-AUC, PR-AUC, conventional Tversky, probabilistic distance-weighted Tversky, and hard distance-weighted Tversky represent different evaluation concepts. Comparisons require consistent definitions, thresholds, weighting, and aggregation.
+### Recommended improvements
 
-The archived distance-weighted summaries should be reconciled with the exact implementation before they are reported as official benchmark results.
+* Document the full predictor lineage and preprocessing configuration.
+* Add explicit diagnostics for missing spatial coverage.
+* Evaluate spatially independent validation strategies.
+* Assess sensitivity to thresholds and label uncertainty.
+* Document model calibration and uncertainty where appropriate.
+* Verify distance-weighted scoring against the official evaluation implementation.
+* Add automated checks for all image and CSV paths in the README.
 
-### 14.5 Geological interpretation
+## 16. Conclusion
 
-Geophysical similarity and high model scores do not establish mineralization, grade, tonnage, recoverability, or economic viability. Candidate targets require independent geological assessment and, where appropriate, field investigation.
+GEMS integrates geophysical predictors, machine-learning predictions, spatial visualization, exploration-target ranking, and distance-weighted evaluation diagnostics into a geospatial prospectivity workflow.
 
-### 14.6 Recommended future improvements
+The archived project includes prediction summaries, model-performance metrics, distance-weighted Tversky diagnostics, target rankings, figures, and CSV tables. These artifacts provide a basis for inspecting the model's outputs and developing more rigorous validation.
 
-Potential next steps include:
+The next step toward a reproducible research system is to document the complete data and model lineage and verify the evaluation implementation against the intended benchmark.
 
-* Documenting the complete predictor lineage and preprocessing configuration.
-* Adding explicit data-quality and spatial-coverage diagnostics.
-* Establishing geographically independent validation.
-* Evaluating sensitivity to label uncertainty and threshold selection.
-* Recording model calibration and uncertainty where appropriate.
-* Documenting the precise distance-weighted scoring implementation.
-* Comparing model-ranked targets with independent geological evidence.
-* Adding automated checks that verify every referenced figure and table exists before publishing the README.
+## 17. Citation
 
-## 15. Conclusion
+**Repository:** [GeologicEnhancedMap](https://github.com/ut1776/GeologicEnhancedMap)
 
-GEMS provides an integrated framework for geophysical predictor analysis, spatial prospectivity prediction, exploration-target ranking, and distance-weighted evaluation diagnostics.
+Suggested citation:
 
-The archived outputs include a 100 m prediction grid, predictor statistics, model-performance summaries, target rankings, and a collection of visualizations and CSV artifacts. Together, these materials support review of the prediction patterns and provide a basis for further validation and development.
+> Tabbsum, U. *Geologic Enhanced Mapping System (GEMS): Machine Learning and Distance-Weighted Mineral Prospectivity Mapping.* GitHub repository. https://github.com/ut1776/GeologicEnhancedMap.
 
-The most important next step is to establish reproducible provenance for the input layers, model, validation protocol, and distance-weighted scoring implementation. These details are necessary to assess how reliably the archived predictions generalize to new exploration areas.
-
-## 16. Citation
-
-If you use or adapt GEMS, cite the repository and the associated data sources and model implementation used in your work.
-
-**Repository:** [GeologicEnhancedMap — GitHub](https://github.com/ut1776/GeologicEnhancedMap)
-
-**Suggested citation format:**
-
-> Tabbsum, U. *Geologic Enhanced Mapping System (GEMS): Machine Learning, Geophysical Data Integration, and Distance-Weighted Mineral Prospectivity Mapping.* GitHub repository: https://github.com/ut1776/GeologicEnhancedMap.
-
-Please verify the preferred author attribution, publication year, and any formal publication details before using this as a final bibliographic citation.
+Verify the preferred author attribution, year, and publication details before using this citation in a formal paper.
 
 ---
 
-*Disclaimer: GEMS is a research and exploration-support framework. Predictions and ranked targets are not proof of mineral deposits or economic viability. Users should verify data provenance, licensing, evaluation methodology, and geological evidence before making operational decisions.*
+**Disclaimer:** GEMS is a research and exploration-support framework. Its predictions and ranked targets are not proof of mineral deposits or economic viability. Data provenance, licensing, scoring methodology, and independent geological evidence should be verified before operational use.
