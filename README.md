@@ -1,476 +1,467 @@
-# 🌎 Geologic Enhanced Mapping System (GEMS)
+# Geologic Enhanced Mapping System (GEMS)
 
-### AI-Assisted Fault Discovery • Geospatial Intelligence • Geothermal Exploration
+### AI-Assisted Fault Mapping | Geospatial Machine Learning | Geothermal Exploration
 
 <p align="center">
   <img src="Figures/01_GEMS_executive_dashboard.png" alt="GEMS executive dashboard" width="100%">
 </p>
 
 <p align="center">
-  <strong>From geophysical evidence to geologically informed exploration targets.</strong>
+  <strong>Integrating terrain, geophysical evidence, and machine learning to prioritize geological structures.</strong>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Research-Geospatial%20AI-176B87?style=for-the-badge" alt="Geospatial AI">
+  <a href="https://github.com/ut1776/GeologicEnhancedMap">
+    <img src="https://img.shields.io/badge/Repository-GeologicEnhancedMap-176B87?style=for-the-badge&logo=github&logoColor=white" alt="GitHub repository">
+  </a>
   <img src="https://img.shields.io/badge/Model-LightGBM-27864B?style=for-the-badge" alt="LightGBM">
-  <img src="https://img.shields.io/badge/Mapping-100%20m-7057A3?style=for-the-badge" alt="100 metre mapping">
-  <img src="https://img.shields.io/badge/Status-Research%20Portfolio-D98B25?style=for-the-badge" alt="Research portfolio">
+  <img src="https://img.shields.io/badge/Domain-Geospatial%20AI-7057A3?style=for-the-badge" alt="Geospatial AI">
+  <img src="https://img.shields.io/badge/Focus-Geothermal%20Exploration-D98B25?style=for-the-badge" alt="Geothermal exploration">
 </p>
 
-**Geologic Enhanced Mapping System (GEMS)** is a reproducible geospatial machine-learning research portfolio focused on identifying and prioritizing potential geological fault structures across Nevada and adjacent eastern California.
+**Geologic Enhanced Mapping System (GEMS)** is an independent geospatial machine-learning research portfolio investigating how geophysical measurements, terrain derivatives, and contextual spatial features can help identify and prioritize potential geological fault structures across Nevada and adjacent eastern California.
 
-The project integrates geophysical predictors, terrain information, structural context, and machine-learning-based prospectivity scoring to help prioritize areas for geological interpretation and potential geothermal exploration.
+The project combines a reported 43-feature modeling pipeline with LightGBM, spatial prediction maps, distance-weighted evaluation diagnostics, and ranked prospectivity records.
 
-Rather than treating any individual raster or anomaly as definitive evidence of a fault, GEMS creates a continuous spatial ranking surface that can support expert review, comparative mapping, and follow-up investigation.
+Its objective is to support geological interpretation by directing attention toward locations that may warrant further investigation.
 
-> **Research principle:** AI should help geologists discover where to look next—not replace geological evidence, field validation, or expert judgment.
-
----
-
-## 📑 Table of Contents
-
-* [Project Overview](#-project-overview)
-* [Executive Dashboard](#-executive-dashboard)
-* [Key Results](#-key-results)
-* [Explore the Maps](#-explore-the-maps)
-* [Terrain and DEM Analysis](#-terrain-and-dem-analysis)
-* [Geophysical Evidence](#-geophysical-evidence)
-* [Model Diagnostics](#-model-diagnostics)
-* [Data Portfolio](#-data-portfolio)
-* [Methodology](#-methodology)
-* [Understanding the DWT Metric](#-understanding-the-distance-weighted-tversky-metric)
-* [Reproducibility and Validation](#-reproducibility-and-validation)
-* [Repository Structure](#-repository-structure)
-* [Research Roadmap](#-research-roadmap)
-* [Limitations and Responsible Interpretation](#-limitations-and-responsible-interpretation)
-* [Scientific Background](#-scientific-background)
-* [Acknowledgements](#-acknowledgements)
+> **Core principle:** A model-generated prospectivity score is a geological hypothesis, not proof of a fault or a productive geothermal reservoir.
 
 ---
 
-## 🔬 Project Overview
+## Contents
 
-Geothermal exploration depends on the interaction of heat, fluids, and connected permeability. Faults and other geological structures may influence fluid circulation, but their effects depend on local geology, structural history, mineralization, and stress conditions.
+* [1. Project overview](#1-project-overview)
+* [2. Executive dashboard](#2-executive-dashboard)
+* [3. Regional prediction maps](#3-regional-prediction-maps)
+* [4. Terrain and DEM analysis](#4-terrain-and-dem-analysis)
+* [5. Geophysical evidence](#5-geophysical-evidence)
+* [6. Model diagnostics](#6-model-diagnostics)
+* [7. Data and results](#7-data-and-results)
+* [8. Methodology](#8-methodology)
+* [9. Distance-weighted Tversky evaluation](#9-distance-weighted-tversky-evaluation)
+* [10. Reproducibility and validation](#10-reproducibility-and-validation)
+* [11. Repository structure](#11-repository-structure)
+* [12. Research roadmap](#12-research-roadmap)
+* [13. Limitations](#13-limitations)
+* [14. References](#14-references)
+* [15. Acknowledgements](#15-acknowledgements)
 
-Many potentially relevant structures are incompletely mapped, concealed beneath sediments, or difficult to distinguish from non-tectonic lineaments.
+---
 
-GEMS investigates how multiple sources of spatial evidence can be combined to prioritize locations that deserve further geological examination.
+## 1. Project overview
+
+Geothermal systems depend on a favorable combination of heat, fluid, and permeability. Geological faults may facilitate fluid circulation, redirect flow, or act as barriers depending on their structural and geological characteristics.
+
+However, existing fault inventories are incomplete. Structures may be concealed beneath sediments, poorly expressed at the surface, or omitted from earlier maps. Conversely, drainage, roads, erosional boundaries, and lithological contacts can resemble geological lineaments.
+
+GEMS explores whether combining multiple imperfect evidence sources can improve the prioritization of potential fault locations.
 
 ### Research objectives
 
-| Objective                            | Approach                                                                               |
-| ------------------------------------ | -------------------------------------------------------------------------------------- |
-| Integrate heterogeneous evidence     | Combine 20 base geophysical bands with derived and contextual predictors               |
-| Identify fault-like spatial patterns | Train a LightGBM gradient-boosted decision-tree model                                  |
-| Prioritize candidate locations       | Generate a continuous prospectivity score surface                                      |
-| Evaluate spatial agreement           | Examine ROC-AUC, PR-AUC, and distance-weighted Tversky diagnostics                     |
-| Support interpretation               | Visualize prediction maps, terrain context, geophysical signatures, and ranked targets |
-| Improve reproducibility              | Preserve CSV artifacts, evaluation summaries, and geospatial metadata                  |
+| Objective                            | Approach                                                                                 |
+| ------------------------------------ | ---------------------------------------------------------------------------------------- |
+| Integrate spatial evidence           | Combine base geophysical bands with derived and contextual predictors                    |
+| Identify fault-associated patterns   | Use LightGBM gradient-boosted decision trees                                             |
+| Generate continuous spatial rankings | Produce prospectivity score surfaces                                                     |
+| Evaluate prediction behavior         | Examine ROC-AUC, PR-AUC, and distance-weighted Tversky diagnostics                       |
+| Support geological review            | Visualize predictions alongside terrain, geological linework, and geophysical signatures |
+| Preserve research artifacts          | Maintain figures, CSV summaries, threshold diagnostics, and ranked targets               |
 
 ### Intended application
 
-The principal use case is **decision support for geological fault mapping and geothermal exploration**. The same general approach may be useful in other geoscience applications where incomplete labels and heterogeneous spatial data complicate interpretation.
+The primary application is decision support for geological fault mapping and geothermal exploration. The workflow may also provide a foundation for other geoscience mapping problems involving incomplete labels and heterogeneous spatial datasets.
 
-The repository documents a research workflow and its archived results; it does not establish that every high-scoring location contains a previously unknown fault or a commercially viable geothermal resource.
+This repository documents an archived research portfolio. The reported metrics are not presented as independently verified official competition results.
 
 ---
 
-## 🖥️ Executive Dashboard
+## 2. Executive dashboard
 
-The following indicators summarize the currently archived portfolio. They are research diagnostics, not official competition leaderboard results.
+The following values are reported in the archived project summaries.
 
-| Indicator                   | Archived value |
+| Indicator                   | Reported value |
 | --------------------------- | -------------: |
-| Machine-learning model      |       LightGBM |
+| Model                       |       LightGBM |
 | Total predictors            |             43 |
 | Base geophysical bands      |             20 |
 | Raster width                |    3,292 cells |
 | Raster height               |    3,730 cells |
-| Nominal output resolution   |          100 m |
+| Nominal pixel size          |          100 m |
 | Coordinate reference system |     EPSG:32611 |
 | Finite prediction pixels    |      4,733,111 |
-| Valid prediction coverage   |         38.55% |
+| Finite prediction coverage  |         38.55% |
 | Mean ROC-AUC                |         0.6612 |
 | Mean PR-AUC                 |         0.0318 |
 | Mean probabilistic DWT      |         0.0616 |
 | Mean best hard DWT          |         0.1148 |
+| Separately reported DWT     |         0.2502 |
 
-**Source:** [`Tables/GEMS_portfolio_summary.csv`](Tables/GEMS_portfolio_summary.csv) and [`Tables/prediction_summary.csv`](Tables/prediction_summary.csv).
+Source files:
 
-### What these numbers tell us
+* [`GEMS_portfolio_summary.csv`](Tables/GEMS_portfolio_summary.csv)
+* [`prediction_summary.csv`](Tables/prediction_summary.csv)
+* [`model_performance.csv`](Tables/model_performance.csv)
+* [`distance_weighted_tversky_summary.csv`](Tables/distance_weighted_tversky_summary.csv)
 
-* **43 predictors:** the model combines base geophysical information with derived or contextual features.
-* **100 m nominal grid:** the output is represented on a fine spatial grid, but the effective resolution is constrained by the source data.
-* **38.55% valid coverage:** a substantial portion of the full grid does not contain finite predictions. Uncovered areas must be treated as missing data, not as low prospectivity.
-* **ROC-AUC of 0.6612:** the recorded evaluation indicates modest discrimination between labeled positives and negatives under the archived evaluation design.
-* **PR-AUC of 0.0318:** precision–recall performance must be interpreted in the context of class prevalence, label completeness, and sampling design.
+### Interpretation
 
-These metrics are useful baselines. Stronger claims about generalization require documented spatially independent validation and a verified evaluation implementation.
+* **43 predictors:** The reported model integrates multiple base and derived feature types.
+* **100 m nominal grid:** The output grid is fine-resolution, but the effective resolution depends on the original data sources.
+* **38.55% coverage:** Only part of the recorded grid contains finite predictions. Uncovered cells must not be interpreted as low prospectivity.
+* **ROC-AUC of 0.6612:** This is the recorded mean discrimination metric under the archived evaluation design.
+* **PR-AUC of 0.0318:** Interpretation depends on positive-label prevalence, sampling design, and the completeness of the fault inventory.
+* **Multiple DWT values:** The probabilistic, hard-threshold, and separate weighted-contribution summaries describe distinct recorded calculations and must not be conflated.
 
----
-
-## 🗺️ Explore the Maps
-
-The repository contains visual artifacts for examining model predictions at multiple scales, from broad prospectivity patterns to candidate locations.
-
-### 1. Regional prediction surface
-
-<p align="center">
-  <img src="Figures/02_GEMS_prediction_map.png" alt="GEMS regional prediction map" width="100%">
-</p>
-
-**Figure 1. Regional GEMS prediction map.** The spatial prediction surface provides an overview of how the model ranks locations across the available grid.
-
-Explore: [`02_GEMS_prediction_map.png`](Figures/02_GEMS_prediction_map.png)
-
-### 2. Geological prospectivity
-
-<p align="center">
-  <img src="Figures/02_GEMS_prospectivity_map.png" alt="GEMS prospectivity map" width="100%">
-</p>
-
-**Figure 2. Prospectivity score surface.** Higher scores indicate stronger agreement with patterns learned from the training labels. They are ranking signals rather than calibrated probabilities of fault existence.
-
-Explore: [`02_GEMS_prospectivity_map.png`](Figures/02_GEMS_prospectivity_map.png)
-
-### 3. Prospectivity with geological linework
-
-<p align="center">
-  <img src="Figures/02_prospectivity_geologic_lines.png" alt="Prospectivity map with geological linework" width="100%">
-</p>
-
-**Figure 3. Geological context overlay.** Comparing the prediction surface with geological linework helps identify areas of agreement, potential extensions, and locations that warrant additional interpretation.
-
-Explore: [`02_prospectivity_geologic_lines.png`](Figures/02_prospectivity_geologic_lines.png)
-
-### 4. Satellite-context visualization
-
-<p align="center">
-  <img src="Figures/01_satellite_prospectivity_overlay.png" alt="Satellite context and prospectivity overlay" width="100%">
-</p>
-
-**Figure 4. Prospectivity overlay in landscape context.** Surface imagery can help an interpreter distinguish possible structural expressions from drainage, roads, erosional boundaries, and other linear features.
-
-Explore: [`01_satellite_prospectivity_overlay.png`](Figures/01_satellite_prospectivity_overlay.png)
-
-### 5. Ranked exploration targets
-
-<p align="center">
-  <img src="Figures/07_top_prospectivity_targets.png" alt="Top prospectivity targets" width="100%">
-</p>
-
-**Figure 5. High-ranking prospectivity targets.** Ranked locations provide a starting point for examining spatial continuity, structural intersections, geophysical support, and independent geological evidence.
-
-Explore: [`07_top_prospectivity_targets.png`](Figures/07_top_prospectivity_targets.png)
-
-**Interpretation note:** A high-ranking target is a hypothesis to investigate, not a confirmed new fault or a validated geothermal prospect.
+These values establish a baseline for further investigation, not proof of successful discovery of previously unmapped faults.
 
 ---
 
-## ⛰️ Terrain and DEM Analysis
+## 3. Regional prediction maps
 
-Digital elevation models (DEMs) provide an important source of geomorphic context. Fault-related surface expressions can include scarps, aligned valleys, slope breaks, linear ridges, offset drainage, and abrupt changes in landform orientation.
+### 3.1 Executive overview
 
-These expressions are not unique to faulting. Erosion, lithological boundaries, drainage networks, and human-made features can produce similar patterns.
+![GEMS executive dashboard](Figures/01_GEMS_executive_dashboard.png)
 
-<p align="center">
-  <img src="Figures/05_dem_hillshade_contours.png" alt="DEM hillshade and contour analysis" width="100%">
-</p>
+*Figure 1. Executive dashboard summarizing the GEMS mapping portfolio.*
 
-**Figure 6. DEM hillshade and contour context.** Terrain illumination and contour patterns help reveal landform breaks and potential lineaments for further geological inspection.
+[Open the executive dashboard](Figures/01_GEMS_executive_dashboard.png)
 
-Explore: [`05_dem_hillshade_contours.png`](Figures/05_dem_hillshade_contours.png)
+### 3.2 Regional prediction surface
 
-### Terrain features of interest
+![GEMS regional prediction map](Figures/02_GEMS_prediction_map.png)
 
-| Terrain evidence     | Potential interpretation                         | Important caveat                                                 |
-| -------------------- | ------------------------------------------------ | ---------------------------------------------------------------- |
-| Hillshade lineaments | Linear terrain breaks or aligned landforms       | Illumination direction can create or hide apparent edges         |
-| Slope gradients      | Scarps and abrupt terrain transitions            | Erosion and lithological contrasts can produce similar gradients |
-| Curvature            | Changes in terrain form                          | Sensitive to noise and DEM resolution                            |
-| Local relief         | Contrasts between elevated and low-lying terrain | Depends on neighborhood scale                                    |
-| Contour patterns     | Changes in slope and landform geometry           | Not direct evidence of subsurface faulting                       |
+*Figure 2. Regional prediction surface for the study grid.*
 
-### Why multi-source terrain analysis matters
+[Open the regional prediction map](Figures/02_GEMS_prediction_map.png)
 
-A DEM can reveal surface expression that is weak in a geophysical layer, while geophysical gradients may highlight structures concealed at the surface.
+### 3.3 Prospectivity score surface
 
-The most useful interpretation comes from comparing independent evidence rather than assuming that any single derivative is diagnostic.
+![GEMS prospectivity map](Figures/02_GEMS_prospectivity_map.png)
 
----
+*Figure 3. Continuous model scores used to prioritize locations for geological review.*
 
-## 🧲 Geophysical Evidence
+[Open the prospectivity map](Figures/02_GEMS_prospectivity_map.png)
 
-The model's feature portfolio includes 20 base geophysical bands and a reported total of 43 predictors.
+Higher scores indicate stronger similarity to patterns learned from the training labels. They should not automatically be interpreted as calibrated probabilities of fault existence.
 
-The archived inventory includes categories of geophysical and contextual information such as magnetic and gravity products, derivatives, radiometric or related variables, deformation-rate information, conductivity, depth-to-basement-related information, and elevation. The precise meaning, units, provenance, and processing history of individual bands should be confirmed against the original feature metadata.
+### 3.4 Geological linework overlay
 
-<p align="center">
-  <img src="Figures/03_GEMS_geophysical_signatures.png" alt="Geophysical signatures associated with GEMS predictions" width="100%">
-</p>
+![Prospectivity with geological linework](Figures/02_prospectivity_geologic_lines.png)
 
-**Figure 7. Geophysical signatures associated with model predictions.** Comparing feature behavior around high-ranking locations can help investigate whether the model relies on plausible geological contrasts or potentially confounding patterns.
+*Figure 4. Comparison of prospectivity scores and geological linework.*
 
-Explore: [`03_GEMS_geophysical_signatures.png`](Figures/03_GEMS_geophysical_signatures.png)
+[Open the geological linework overlay](Figures/02_prospectivity_geologic_lines.png)
 
-### Complementary evidence
+Comparing predicted patterns with existing geological linework helps identify agreement, potential extensions, and locations that require further interpretation.
 
-* **Magnetic anomalies and gradients:** may highlight contrasts in magnetic properties, geological contacts, and structural boundaries.
-* **Gravity anomalies and derivatives:** may reveal variations in subsurface density and regional geological structure.
-* **Conductivity-related information:** can contribute evidence about subsurface electrical properties.
-* **Terrain and elevation:** describe surface morphology and potential geomorphic expression.
-* **Derived features:** can emphasize local contrasts and interactions between source variables.
+### 3.5 Satellite-context overlay
 
-These signals are not unique to faulting. Geological interpretation must account for lithology, acquisition and processing artifacts, resolution differences, and correlations among predictors.
+![Satellite prospectivity overlay](Figures/01_satellite_prospectivity_overlay.png)
 
----
+*Figure 5. Prospectivity predictions displayed in landscape context.*
 
-## 📈 Model Diagnostics
+[Open the satellite-context overlay](Figures/01_satellite_prospectivity_overlay.png)
 
-Model performance is only one component of an enhanced mapping workflow. Threshold sensitivity, spatial agreement, feature behavior, and the concentration of false positives all affect whether predictions are useful to a geological reviewer.
+Satellite imagery can help reviewers investigate possible terrain expressions and distinguish geological hypotheses from roads, drainage, and other non-tectonic features. Its display here does not establish that satellite imagery was used as a model input.
 
-### Distance-weighted Tversky diagnostics
+### 3.6 Ranked targets
 
-<p align="center">
-  <img src="Figures/03_distance_weighted_tversky.png" alt="Distance-weighted Tversky diagnostic plot" width="100%">
-</p>
+![Top prospectivity targets](Figures/07_top_prospectivity_targets.png)
 
-**Figure 8. Distance-weighted Tversky diagnostics.** The archived plot provides a view of the distance-weighted evaluation behavior.
+*Figure 6. High-ranking prospectivity targets for follow-up investigation.*
 
-Explore: [`03_distance_weighted_tversky.png`](Figures/03_distance_weighted_tversky.png)
+[Open the ranked-target figure](Figures/07_top_prospectivity_targets.png)
 
-### Spatial contribution diagnostics
-
-<p align="center">
-  <img src="Figures/03_distance_weighted_tversky_heatmap.png" alt="Distance-weighted Tversky heatmap" width="100%">
-</p>
-
-**Figure 9. Distance-weighted Tversky heatmap.** Spatial diagnostics can help identify where agreement and disagreement with reference labels contribute to the evaluation.
-
-Explore: [`03_distance_weighted_tversky_heatmap.png`](Figures/03_distance_weighted_tversky_heatmap.png)
-
-### Spatial score map
-
-<p align="center">
-  <img src="Figures/04_distance_weighted_tversky_map.png" alt="Distance-weighted Tversky spatial map" width="100%">
-</p>
-
-**Figure 10. Spatial evaluation map.** The mapped evaluation artifact complements scalar metrics by providing a spatial view of score-related contributions.
-
-Explore: [`04_distance_weighted_tversky_map.png`](Figures/04_distance_weighted_tversky_map.png)
-
-### Feature-signature diagnostics
-
-<p align="center">
-  <img src="Figures/08_model_feature_signatures.png" alt="Model feature signatures" width="100%">
-</p>
-
-**Figure 11. Model feature signatures.** Feature importance and feature signatures describe model behavior; they do not establish causal geological controls.
-
-Explore: [`08_model_feature_signatures.png`](Figures/08_model_feature_signatures.png)
-
-### Understanding the archived metrics
-
-The repository records several evaluation summaries that must remain distinct:
-
-| Metric                 | Recorded value | Interpretation                                               |
-| ---------------------- | -------------: | ------------------------------------------------------------ |
-| Mean ROC-AUC           |         0.6612 | Discrimination under the archived evaluation design          |
-| Mean PR-AUC            |         0.0318 | Precision–recall behavior under the archived sampling design |
-| Mean probabilistic DWT |         0.0616 | Recorded probabilistic evaluation summary                    |
-| Mean best hard DWT     |         0.1148 | Recorded fold-level best hard-threshold summary              |
-| Separate DWT summary   |         0.2502 | A separate weighted-contribution calculation                 |
-
-The separate DWT value of approximately 0.2502 is documented in [`Tables/distance_weighted_tversky_summary.csv`](Tables/distance_weighted_tversky_summary.csv). It is not interchangeable with the mean probabilistic or fold-level hard-threshold results.
-
-Differences in aggregation, thresholding, evaluated predictions, or evaluation context can lead to different scores. The archived notebook and scoring implementation should be consulted before comparing these results or reporting an official competition score.
+Candidate ranking is a prioritization mechanism. Geological confirmation requires independent evidence and, where feasible, additional mapping or field investigation.
 
 ---
 
-## 📂 Data Portfolio
+## 4. Terrain and DEM analysis
 
-The `Tables/` directory contains the project's archived CSV artifacts. These are intended to support inspection, comparison, reporting, and reproducibility.
+Digital elevation models provide geomorphic context for interpreting potential structural features. Fault-related surface expressions may include scarps, aligned valleys, slope breaks, linear ridges, and drainage offsets.
 
-### Core summary datasets
+These landforms are not unique to faulting. Their interpretation depends on geomorphology, lithology, erosion, DEM resolution, and independent geological evidence.
 
-| File                                                                                    | Purpose                                                              |
-| --------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| [`GEMS_portfolio_summary.csv`](Tables/GEMS_portfolio_summary.csv)                       | Model configuration, recorded metrics, grid dimensions, and coverage |
-| [`prediction_summary.csv`](Tables/prediction_summary.csv)                               | Prediction raster statistics, valid pixels, range, and CRS           |
-| [`model_performance.csv`](Tables/model_performance.csv)                                 | Fold-level threshold diagnostics and weighted contributions          |
-| [`distance_weighted_tversky_summary.csv`](Tables/distance_weighted_tversky_summary.csv) | Aggregated DWT contributions and metric parameters                   |
+![DEM hillshade and contours](Figures/05_dem_hillshade_contours.png)
 
-### Feature and input datasets
+*Figure 7. DEM hillshade and contour visualization for terrain and lineament inspection.*
 
-| File                                                          | Purpose                             |
-| ------------------------------------------------------------- | ----------------------------------- |
-| [`feature_statistics.csv`](Tables/feature_statistics.csv)     | Feature-level statistical summaries |
-| [`selected_input_files.csv`](Tables/selected_input_files.csv) | Inventory of selected input files   |
+[Open the DEM analysis figure](Figures/05_dem_hillshade_contours.png)
 
-### Target-ranking and evaluation datasets
+### Terrain evidence
 
-| File                                                                            | Purpose                                                |
-| ------------------------------------------------------------------------------- | ------------------------------------------------------ |
-| [`prospectivity_cells.csv`](Tables/prospectivity_cells.csv)                     | Archived cell-level prospectivity data                 |
-| [`top_100_prospectivity_targets.csv`](Tables/top_100_prospectivity_targets.csv) | Ranked high-prospectivity target records               |
-| [`threshold_analysis.csv`](Tables/threshold_analysis.csv)                       | Threshold sensitivity analysis                         |
-| [`dwt_pixel_contributions.csv`](Tables/dwt_pixel_contributions.csv)             | Pixel-level distance-weighted evaluation contributions |
+| Feature      | Potential value                                    | Limitation                                         |
+| ------------ | -------------------------------------------------- | -------------------------------------------------- |
+| Hillshade    | Reveals terrain breaks and aligned landforms       | Depends on illumination direction                  |
+| Slope        | Highlights abrupt terrain transitions              | Can emphasize erosional or lithological boundaries |
+| Curvature    | Describes changes in terrain shape                 | Sensitive to noise and cell size                   |
+| Local relief | Measures neighborhood elevation contrasts          | Depends on neighborhood scale                      |
+| Contours     | Reveals changes in elevation and landform geometry | Does not directly establish subsurface faulting    |
 
-Browse all artifacts in the [Tables directory](Tables/).
+### Why combine terrain and geophysics?
 
-**Important:** The repository includes archived summaries and analytical outputs, but the presence of a CSV does not by itself establish that its contents were produced by a fully independent validation process. Refer to the generating notebook and data provenance when making scientific claims.
+Topography describes the surface, while geophysical products provide indirect evidence about subsurface physical-property contrasts.
+
+A buried structure may have a geophysical signature without a strong terrain expression. Conversely, a prominent valley may be erosional rather than tectonic.
+
+The strongest interpretation comes from evaluating the consistency of independent evidence sources.
 
 ---
 
-## ⚙️ Methodology
+## 5. Geophysical evidence
 
-The research workflow can be summarized in six stages.
+The archived feature inventory records 20 base geophysical bands and 43 total predictors.
 
-### Stage 1 — Spatial data preparation
+The report describes feature categories that include magnetic and gravity products and derivatives, radiometric or related variables, deformation-rate information, conductivity, depth-to-basement-related information, and elevation.
 
-* Inventory the available input rasters and tabular artifacts.
-* Check coordinate reference systems, dimensions, transforms, bounds, and NoData masks.
-* Align compatible rasters to a common analysis grid.
-* Preserve original units and document resampling choices.
-* Distinguish missing coverage from physically meaningful zero values.
+The precise meaning, units, source, and processing history of each feature should be verified against the original data inventory.
 
-### Stage 2 — Feature engineering
+![GEMS geophysical signatures](Figures/03_GEMS_geophysical_signatures.png)
 
-* Assemble the base geophysical predictors.
-* Incorporate terrain and structural context where supported by available data.
-* Derive local gradients, neighborhood statistics, and other contextual predictors when justified.
-* Examine correlated variables and potential noise amplification.
-* Record feature definitions, units, and provenance.
+*Figure 8. Geophysical signatures associated with the model's high-ranking predictions.*
+
+[Open the geophysical-signatures figure](Figures/03_GEMS_geophysical_signatures.png)
+
+### Evidence interpretation
+
+* **Magnetic products:** May reveal contrasts in magnetic properties and potential structural boundaries.
+* **Gravity products:** May highlight density contrasts and regional subsurface structure.
+* **Geophysical derivatives:** Can emphasize local gradients and boundaries but may amplify noise.
+* **Conductivity-related information:** May provide complementary evidence about subsurface electrical properties.
+* **Elevation and terrain features:** Describe surface morphology and possible geomorphic expression.
+* **Contextual predictors:** Can help the model combine local evidence across multiple spatial scales.
+
+None of these features is uniquely diagnostic of a fault. Their value depends on geological context, data quality, and the consistency of multiple observations.
+
+---
+
+## 6. Model diagnostics
+
+GEMS includes archived diagnostic figures for evaluating spatial agreement, distance-weighted scores, and model feature behavior.
+
+### 6.1 Distance-weighted Tversky diagnostics
+
+![Distance-weighted Tversky diagnostics](Figures/03_distance_weighted_tversky.png)
+
+*Figure 9. Archived distance-weighted Tversky evaluation diagnostics.*
+
+[Open the diagnostic figure](Figures/03_distance_weighted_tversky.png)
+
+### 6.2 Spatial evaluation heatmap
+
+![Distance-weighted Tversky heatmap](Figures/03_distance_weighted_tversky_heatmap.png)
+
+*Figure 10. Spatial visualization of distance-weighted evaluation contributions.*
+
+[Open the evaluation heatmap](Figures/03_distance_weighted_tversky_heatmap.png)
+
+### 6.3 Spatial evaluation map
+
+![Distance-weighted Tversky spatial map](Figures/04_distance_weighted_tversky_map.png)
+
+*Figure 11. Spatial view of the archived distance-weighted evaluation.*
+
+[Open the spatial evaluation map](Figures/04_distance_weighted_tversky_map.png)
+
+### 6.4 Feature signatures
+
+![Model feature signatures](Figures/08_model_feature_signatures.png)
+
+*Figure 12. Feature-signature diagnostics for interpreting model behavior.*
+
+[Open the feature-signatures figure](Figures/08_model_feature_signatures.png)
+
+Feature importance indicates how the fitted model uses predictors under a particular dataset and model specification. It does not establish causal geological importance.
+
+---
+
+## 7. Data and results
+
+The `Tables/` directory contains the archived CSV artifacts described in the report.
+
+### 7.1 Summary tables
+
+| File                                                                                  | Description                                                |
+| ------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| [GEMS_portfolio_summary.csv](Tables/GEMS_portfolio_summary.csv)                       | Archived project configuration and portfolio-level metrics |
+| [prediction_summary.csv](Tables/prediction_summary.csv)                               | Prediction coverage, range, and raster summary statistics  |
+| [model_performance.csv](Tables/model_performance.csv)                                 | Model performance and threshold-related diagnostics        |
+| [distance_weighted_tversky_summary.csv](Tables/distance_weighted_tversky_summary.csv) | Separate weighted-contribution evaluation summary          |
+
+### 7.2 Feature and input inventories
+
+| File                                                        | Description                         |
+| ----------------------------------------------------------- | ----------------------------------- |
+| [feature_statistics.csv](Tables/feature_statistics.csv)     | Feature-level statistical summaries |
+| [selected_input_files.csv](Tables/selected_input_files.csv) | Selected input-file inventory       |
+
+### 7.3 Prediction and threshold analysis
+
+| File                                                                          | Description                                   |
+| ----------------------------------------------------------------------------- | --------------------------------------------- |
+| [prospectivity_cells.csv](Tables/prospectivity_cells.csv)                     | Archived prospectivity cell records           |
+| [top_100_prospectivity_targets.csv](Tables/top_100_prospectivity_targets.csv) | Ranked high-prospectivity target records      |
+| [threshold_analysis.csv](Tables/threshold_analysis.csv)                       | Threshold sensitivity results                 |
+| [dwt_pixel_contributions.csv](Tables/dwt_pixel_contributions.csv)             | Pixel-level weighted evaluation contributions |
+
+Browse the complete [Figures directory](Figures/) and [Tables directory](Tables/).
+
+The available file inventory documents the presence of these artifacts; it does not by itself establish independent validation, complete data provenance, or official competition acceptance.
+
+---
+
+## 8. Methodology
+
+The workflow consists of six conceptual stages.
+
+### Stage 1 — Data preparation
+
+* Inventory available rasters and tabular files.
+* Check CRS, dimensions, transforms, bounds, units, and NoData masks.
+* Align compatible data sources to a common grid.
+* Document resampling and interpolation choices.
+* Preserve missing coverage rather than silently replacing it with zero.
+
+### Stage 2 — Feature construction
+
+* Assemble base geophysical predictors.
+* Include terrain and contextual predictors where supported by the source data.
+* Derive local gradients and neighborhood features where justified.
+* Examine correlated predictors and sensitivity to noise.
+* Maintain a traceable feature inventory.
 
 ### Stage 3 — Model fitting
 
-The archived portfolio uses LightGBM, a gradient-boosted decision-tree model suited to nonlinear interactions among heterogeneous tabular features.
+The archived portfolio uses LightGBM, a gradient-boosted decision-tree model capable of learning nonlinear relationships among heterogeneous predictors.
 
-The model learns statistical associations with the available training labels. It does not inherently understand geological topology, fault continuity, or the physical causes of geophysical anomalies.
+The model learns statistical associations with the available training labels. It does not inherently encode geological causation, structural topology, or fault continuity.
 
 ### Stage 4 — Evaluation
 
-The recorded evaluation portfolio includes:
+The archived report records:
 
 * ROC-AUC;
 * precision–recall AUC;
 * distance-weighted Tversky diagnostics;
-* fold-specific threshold analysis;
+* threshold analysis;
 * weighted true-positive, false-positive, and false-negative contributions.
 
-Spatially blocked validation is recommended to evaluate transfer to geographically distinct areas. The available summary values alone do not establish that the recorded folds were fully independent.
+Spatially blocked validation is recommended to assess transfer to geographically distinct regions. The summary values alone do not establish that the archived folds were geographically independent or that all threshold tuning was nested correctly.
 
-### Stage 5 — Prediction and mapping
+### Stage 5 — Prediction mapping
 
-The archived prediction output is described as a floating-point score raster with:
+The reported output grid has:
 
-* **Width:** 3,292 cells;
-* **Height:** 3,730 cells;
-* **Nominal resolution:** 100 m;
-* **CRS:** EPSG:32611;
-* **Finite pixels:** 4,733,111.
+* Width: 3,292 cells;
+* Height: 3,730 cells;
+* Nominal resolution: 100 m;
+* CRS: EPSG:32611;
+* Finite prediction cells: 4,733,111.
 
-These metadata describe the archived output. Before any formal submission, the actual raster should be checked against the competition's required template, including its transform, bounds, data type, NoData representation, and valid-value range.
+These values describe the archived output. Before formal submission, the actual raster must be checked for dimensions, transform, bounds, CRS, data type, NoData representation, and permitted score range.
 
-### Stage 6 — Geological interpretation
+### Stage 6 — Geological review
 
-Ranked candidates should be examined for:
+High-ranking candidates should be assessed for:
 
 * spatial continuity and orientation;
-* consistency across independent geophysical layers;
-* terrain expression and geomorphic plausibility;
+* agreement among independent geophysical products;
+* geomorphic plausibility;
 * relation to known geological structures;
-* alternative explanations such as lithological contacts or drainage;
-* stability across folds, models, and feature perturbations.
+* alternative explanations, including lithological boundaries and drainage;
+* stability across validation folds, model configurations, and data perturbations.
 
-The output is a prioritization layer for further investigation, not an autonomous fault inventory.
+The output is a ranking surface to guide review, not an autonomous declaration of newly discovered faults.
 
 ---
 
-## 🎯 Understanding the Distance-Weighted Tversky Metric
+## 9. Distance-weighted Tversky evaluation
 
-A conventional Tversky index is written as
+The conventional Tversky index is
 
 $$
 T_{\alpha,\beta}
 =
-\frac{TP}
-{TP+\alpha FP+\beta FN},
+\frac{TP}{TP+\alpha FP+\beta FN},
 $$
 
 where \(TP\), \(FP\), and \(FN\) represent true-positive, false-positive, and false-negative contributions.
 
-The archived portfolio records a 300 m tolerance, equivalent to three nominal 100 m pixels, with \(\alpha=0.2\) and \(\beta=0.8\).
+The archived portfolio reports a 300 m tolerance, equivalent to three nominal 100 m pixels, with \(\alpha=0.2\) and \(\beta=0.8\).
 
-In the distance-weighted version, spatial proximity modifies the evaluation contributions according to the applicable scoring procedure. The exact competition metric implementation must be used for official comparisons.
-
-### Why distance weighting matters
-
-A predicted structure can be geologically plausible even when its pixels do not align perfectly with a reference line. Distance-aware evaluation can recognize spatial proximity that strict pixel-by-pixel agreement would penalize.
-
-However, a broad region of high scores can also create an excessive false-positive burden. A useful mapping system must balance recall, spatial specificity, and practical interpretability.
+The distance-weighted implementation modifies the contributions according to spatial proximity. Official comparisons must use the exact competition scoring implementation rather than a substitute approximation.
 
 ### Archived weighted-contribution summary
 
-| Quantity                                       | Recorded value |
-| ---------------------------------------------- | -------------: |
-| Weighted true-positive contribution, \(TP_w\)  |      26,283.97 |
-| Weighted false-positive contribution, \(FP_w\) |     255,000.52 |
-| Weighted false-negative contribution, \(FN_w\) |      34,704.00 |
-| \(\alpha\)                                     |            0.2 |
-| \(\beta\)                                      |            0.8 |
-| Distance tolerance                             |          300 m |
-| Nominal tolerance in pixels                    |              3 |
-| Separately recorded DWT                        |         0.2502 |
+| Quantity                           | Recorded value |
+| ---------------------------------- | -------------: |
+| Weighted true positives, \(TP_w\)  |      26,283.97 |
+| Weighted false positives, \(FP_w\) |     255,000.52 |
+| Weighted false negatives, \(FN_w\) |      34,704.00 |
+| \(\alpha\)                         |            0.2 |
+| \(\beta\)                          |            0.8 |
+| Distance tolerance                 |          300 m |
+| Nominal tolerance                  |       3 pixels |
+| Separate recorded DWT              |         0.2502 |
 
-Source: [`distance_weighted_tversky_summary.csv`](Tables/distance_weighted_tversky_summary.csv).
+Source: [distance_weighted_tversky_summary.csv](Tables/distance_weighted_tversky_summary.csv).
 
-These values describe the archived weighted-contribution summary. They should not be substituted for the separate fold-level probabilistic and hard-threshold averages.
+### Why multiple DWT values appear
+
+The portfolio records a mean probabilistic DWT of 0.0616, a mean best hard DWT of 0.1148, and a separate DWT summary of 0.2502.
+
+These values must remain separate because they may reflect different prediction sets, aggregation methods, thresholds, or evaluation contexts. The generating notebook and scoring implementation must be checked before these scores are compared or reported as official results.
+
+Distance weighting can reward spatially close predictions, but broad predictions can still produce a substantial false-positive burden. The practical objective is to improve useful spatial agreement without overwhelming geological review with implausible candidates.
 
 ---
 
-## 🔁 Reproducibility and Validation
+## 10. Reproducibility and validation
 
-The goal is to make the research auditable, not merely visually compelling.
+A reproducible mapping workflow should preserve enough information to regenerate the predictions and understand the source of every reported metric.
 
-### Recommended validation checklist
+### Validation checklist
 
 * [ ] Preserve the original input-file inventory.
-* [ ] Record software versions, model parameters, and random seeds.
-* [ ] Document feature definitions, units, transformations, and source resolution.
-* [ ] Verify spatial fold geometries and geographic separation.
+* [ ] Record software versions, random seeds, and model parameters.
+* [ ] Document feature definitions, units, provenance, and effective source resolution.
+* [ ] Save spatial fold geometries and held-out regions.
 * [ ] Fit preprocessing and feature selection using training data only within each fold.
-* [ ] Perform threshold selection without using held-out evaluation labels.
-* [ ] Reproduce the distance-weighted metric on controlled test examples.
-* [ ] Report per-fold metrics, positive prevalence, and uncertainty.
+* [ ] Select thresholds without using held-out evaluation labels.
+* [ ] Test the official distance-weighted metric against controlled examples.
+* [ ] Record per-fold metrics and positive-label prevalence.
 * [ ] Compare geophysics-only, terrain-only, and combined feature sets.
-* [ ] Validate prediction raster dimensions, CRS, transform, NoData, and value range.
-* [ ] Keep the exact prediction set and evaluation context attached to each reported score.
-* [ ] Record checksums and versions for released artifacts.
+* [ ] Validate raster CRS, transform, dimensions, NoData, and score range.
+* [ ] Associate each metric with the exact evaluated prediction set.
+* [ ] Preserve model and artifact versions where permitted.
 
-### Suggested experiment matrix
+### Recommended experiments
 
-| Experiment                     | Purpose                                                          |
-| ------------------------------ | ---------------------------------------------------------------- |
-| Geophysics-only                | Establish the baseline contribution of base geophysical features |
-| Terrain-only                   | Assess the value of DEM-derived evidence                         |
-| Combined predictors            | Measure the value of integrating evidence sources                |
-| Combined with derived features | Test whether local gradients and context improve ranking         |
-| Spatially blocked validation   | Estimate transfer to unseen geographic regions                   |
-| Threshold sensitivity          | Quantify the recall–false-positive trade-off                     |
-| Model ensemble                 | Examine prediction stability across models or folds              |
-| Geological candidate review    | Test whether high-ranking locations are independently plausible  |
+| Experiment                    | Research question                                                       |
+| ----------------------------- | ----------------------------------------------------------------------- |
+| Geophysics-only baseline      | How much predictive value comes from the base geophysical bands?        |
+| Terrain-only model            | How useful are terrain-derived features by themselves?                  |
+| Combined model                | Does evidence integration improve the ranking?                          |
+| Derived-feature ablation      | Do gradients and contextual features provide incremental value?         |
+| Spatially blocked validation  | Does the model generalize to geographically distinct areas?             |
+| Threshold sensitivity         | How does the false-positive burden change with recall?                  |
+| Model ensemble                | Are the highest-ranked targets stable across model variations?          |
+| Independent geological review | Do candidate targets have plausible support beyond the training labels? |
 
-These are recommended follow-up experiments, not claims that every experiment has already been completed.
+These are recommended next steps, not assertions that all experiments have already been completed.
 
 ---
 
-## 🗂️ Repository Structure
+## 11. Repository structure
+
+The repository uses `Figures/` and `Tables/` as the primary directories for visual and tabular artifacts.
 
 ```text
 GeologicEnhancedMap/
 ├── README.md
 ├── Figures/
+│   ├── .gitkeep
 │   ├── 01_GEMS_executive_dashboard.png
 │   ├── 01_satellite_prospectivity_overlay.png
 │   ├── 02_GEMS_prediction_map.png
@@ -484,6 +475,7 @@ GeologicEnhancedMap/
 │   ├── 07_top_prospectivity_targets.png
 │   └── 08_model_feature_signatures.png
 └── Tables/
+    ├── .gitkeep
     ├── GEMS_portfolio_summary.csv
     ├── distance_weighted_tversky_summary.csv
     ├── dwt_pixel_contributions.csv
@@ -496,106 +488,93 @@ GeologicEnhancedMap/
     └── top_100_prospectivity_targets.csv
 ```
 
-The tree reflects the files documented in the current repository inventory. Additional notebooks, model files, or raster outputs should be added to this listing only if they are actually committed to the repository.
+This listing reflects the repository inventory supplied for the project. Add notebooks, model files, raster outputs, or other directories to this tree only after confirming that they are present in the repository.
 
 ---
 
-## 🚀 Research Roadmap
+## 12. Research roadmap
 
-The next phase should focus on scientific validity and the practical usefulness of the ranked targets.
+### Priority 1 — Audit the evaluation pipeline
 
-### Priority 1 — Verify evaluation integrity
+Verify the official scoring implementation, reconcile the separate DWT summaries, and document the exact predictions, thresholds, folds, and aggregation methods used for each result.
 
-Reproduce the official distance-weighted metric, reconcile the distinct DWT summaries, and establish exactly which predictions, folds, and thresholds generated each result.
+### Priority 2 — Strengthen spatial validation
 
-### Priority 2 — Strengthen spatial generalization
+Use geographically separated folds or structurally distinct regions. Record fold boundaries, label prevalence, and per-region metrics.
 
-Use geographic blocks or structurally distinct regions for validation. Document fold boundaries and compare performance across regions with different geological and data-coverage characteristics.
+### Priority 3 — Measure feature-family contributions
 
-### Priority 3 — Quantify the value of each evidence source
+Run controlled ablations to determine whether terrain, geophysical derivatives, and contextual features improve results beyond the base geophysical model.
 
-Run controlled feature ablations to establish whether terrain, geophysical derivatives, and neighborhood context improve performance beyond the base predictors.
+### Priority 4 — Improve spatial coherence
 
-### Priority 4 — Improve target geometry
+Investigate candidate continuity, orientation, and structural intersections while controlling the false-positive burden.
 
-Investigate whether spatial continuity, orientation, structural intersections, and candidate-segment ranking improve the usefulness of the prediction surface without introducing excessive false positives.
+### Priority 5 — Quantify uncertainty
 
-### Priority 5 — Characterize uncertainty
+Compare fold-level predictions, alternative model configurations, and input perturbations. Identify stable candidates separately from those whose ranking is sensitive to modeling choices.
 
-Compare fold-level predictions, alternative model specifications, and input perturbations. Separate stable high-ranking candidates from locations whose rankings depend strongly on the modeling choices.
+### Priority 6 — Independently assess high-ranking targets
 
-### Priority 6 — Validate candidates independently
+Compare candidates against independent geological maps, source geophysical products, imagery, and field evidence where available.
 
-Compare selected targets against independent geological maps, source geophysical products, remote-sensing context, and field observations where available.
-
-The strongest next result would not simply be a higher scalar score. It would be a demonstrably more reliable and interpretable set of candidate structures.
+The goal is not simply to increase a single metric. It is to produce a more reliable, interpretable, and scientifically defensible set of candidate structures.
 
 ---
 
-## ⚠️ Limitations and Responsible Interpretation
+## 13. Limitations
 
-**Incomplete labels.** An unlabeled location is not necessarily a true geological negative. Unmapped faults can be present in areas classified as background.
+**Incomplete labels:** An unlabeled pixel may contain an unmapped fault rather than a true negative.
 
-**Spatial dependence.** Nearby pixels share geological and geophysical structure. Random pixel splits can overstate generalization.
+**Spatial dependence:** Nearby pixels and spatially smooth raster features are correlated. Random pixel splits can overstate generalization.
 
-**Coverage gaps.** Approximately 38.55% of the recorded grid has finite predictions. Missing coverage must remain explicit in all maps and downstream analysis.
+**Coverage gaps:** Approximately 38.55% of the recorded output grid contains finite predictions. Uncovered cells must remain distinguishable from low-scoring cells.
 
-**Resolution mismatch.** A 100 m output grid does not mean that every source dataset provides independent information at 100 m resolution.
+**Resolution mismatch:** A nominal 100 m output grid does not imply that every input source has 100 m effective resolution.
 
-**Lineament ambiguity.** Roads, drainage, lithological boundaries, erosional features, and processing artifacts can resemble faults.
+**Lineament ambiguity:** Roads, drainage, erosional features, lithological boundaries, and processing artifacts may resemble geological structures.
 
-**Model interpretation.** Feature importance measures model reliance under a particular dataset and model specification; it does not establish geological causation.
+**Model interpretation:** Feature importance describes model behavior, not causal geological control.
 
-**Metric comparability.** Results from different folds, thresholds, aggregation methods, or evaluation implementations should not be presented as interchangeable.
+**Metric consistency:** Scores from different folds, thresholds, prediction sets, or aggregation procedures must not be treated as interchangeable.
 
-**Geothermal inference.** A potential fault structure does not establish reservoir temperature, fluid availability, permeability, sustainable production, or commercial viability.
+**Geothermal uncertainty:** A potential fault does not establish temperature, fluid availability, permeability, sustainable production, or economic viability.
 
-The appropriate use of GEMS is to help prioritize geological investigation while preserving uncertainty and independent verification.
-
----
-
-## 📚 Scientific Background
-
-The project is motivated by the intersection of geothermal structural geology, remote sensing, geophysical interpretation, and machine learning.
-
-Selected background references:
-
-1. Ahmadi, H., and Pekkan, E. (2021). *Fault-based geological lineaments extraction using remote sensing and GIS—a review.* Geosciences, 11(5), 183. https://doi.org/10.3390/geosciences11050183
-
-2. Faulds, J. E., Hinz, N. H., Coolbaugh, M. F., et al. (2021). *Geological controls on geothermal resources for power generation.* Nature Reviews Earth & Environment, 2, 324–339. https://doi.org/10.1038/s43017-021-00154-y
-
-3. van der Meer, F. D., Hecker, C. A., van Ruitenbeek, F. J., et al. (2014). *Geologic remote sensing for geothermal exploration: A review.* International Journal of Applied Earth Observation and Geoinformation, 33, 255–269. https://doi.org/10.1016/j.jag.2014.05.007
-
-4. U.S. Department of Energy, Geothermal Technologies Office. (2026). *Office of Geothermal Announces Geologic Enhanced Mapping System (GEMS) Prize.* [Read the announcement](https://www.energy.gov/hgeo/geothermal/articles/office-geothermal-announces-geologic-enhanced-mapping-system-gems-prize).
-
-These references provide scientific context; they should not be interpreted as independent validation of the results reported in this repository.
+The intended role of GEMS is to prioritize further investigation while preserving uncertainty and the need for independent verification.
 
 ---
 
-## 🙏 Acknowledgements
+## 14. References
 
-This research portfolio is framed around the Geologic Enhanced Mapping System (GEMS) Prize announced by the U.S. Department of Energy.
+1. Ahmadi, H., and Pekkan, E. (2021). Fault-based geological lineaments extraction using remote sensing and GIS—a review. *Geosciences*, 11(5), 183. https://doi.org/10.3390/geosciences11050183
 
-The project is an independent research effort and is not represented as endorsed by the Department of Energy, the National Lab of the Rockies, or DrivenData.
+2. Faulds, J. E., Hinz, N. H., Coolbaugh, M. F., et al. (2021). Geological controls on geothermal resources for power generation. *Nature Reviews Earth & Environment*, 2, 324–339. https://doi.org/10.1038/s43017-021-00154-y
 
-Author: **Umar Tabbsum**
-Role: Independent Researcher
-Research area: Geospatial machine learning, geological fault mapping, and geothermal exploration
-Report date: October 2026
+3. van der Meer, F. D., Hecker, C. A., van Ruitenbeek, F. J., et al. (2014). Geologic remote sensing for geothermal exploration: A review. *International Journal of Applied Earth Observation and Geoinformation*, 33, 255–269. https://doi.org/10.1016/j.jag.2014.05.007
+
+4. U.S. Department of Energy, Geothermal Technologies Office. (2026). Office of Geothermal Announces Geologic Enhanced Mapping System (GEMS) Prize. [Official announcement](https://www.energy.gov/hgeo/geothermal/articles/office-geothermal-announces-geologic-enhanced-mapping-system-gems-prize).
+
+These references provide scientific context. They do not independently validate the model outputs or archived metrics in this repository.
 
 ---
 
-## ⭐ Closing Perspective
+## 15. Acknowledgements
 
-GEMS explores how geophysical measurements, terrain context, and machine learning can be combined to prioritize geological structures that deserve closer examination.
+This independent research portfolio is framed around the Geologic Enhanced Mapping System (GEMS) Prize announced by the U.S. Department of Energy.
 
-Its value depends not only on the sophistication of its model, but also on the quality of its spatial validation, the traceability of its data, the transparency of its uncertainty, and the geological defensibility of its candidate targets.
+**Author:** Umar Tabbsum
+**Role:** Independent Researcher
+**Research areas:** Geospatial machine learning, geological fault mapping, and geothermal exploration
+**Report date:** October 2026
 
-**The ultimate objective is to turn heterogeneous spatial data into reproducible geological hypotheses that experts can investigate and independently test.**
+This project should not be represented as endorsed by the U.S. Department of Energy, the National Lab of the Rockies, or DrivenData.
 
-If you find this research useful, explore the figures and tables, reproduce the archived diagnostics, and build on the workflow with stronger spatial validation and independent geological verification.
+---
 
-<p align="center">
-  <strong>Geologic Enhanced Mapping System (GEMS)</strong><br>
-  <em>Mapping evidence. Ranking possibilities. Supporting discovery.</em>
-</p>
+## Final perspective
+
+GEMS investigates how heterogeneous geophysical evidence, terrain context, and machine learning can be combined to prioritize geological structures that merit closer examination.
+
+Its contribution should ultimately be judged by the reproducibility of the workflow, the rigor of its spatial validation, the transparency of its uncertainty, and the independent geological defensibility of its candidate targets.
+
+**Mapping evidence. Ranking possibilities. Supporting discovery.**
