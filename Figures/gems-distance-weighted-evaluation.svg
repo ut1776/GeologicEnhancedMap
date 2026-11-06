@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="390" viewBox="0 0 1200 390" role="img" aria-labelledby="t d">
+<title id="t">Distance-weighted Tversky evaluation</title><desc id="d">Conceptual diagram showing predicted fault pixels near a reference fault receive distance-aware credit, while distant false alarms and missed reference segments affect the score.</desc>
+<rect width="1200" height="390" rx="22" fill="#f5f7f4"/><text x="50" y="58" font-family="Arial" font-size="30" font-weight="700" fill="#173747">WHY DISTANCE-WEIGHTED EVALUATION MATTERS</text>
+<text x="50" y="92" font-family="Arial" font-size="17" fill="#45616b">Illustrative geometry only — not a recreation of the official scoring code</text>
+<rect x="55" y="125" width="1090" height="195" rx="14" fill="#e7ece8"/>
+<path d="M120 280L420 165L700 240L1050 145" fill="none" stroke="#243f50" stroke-width="9" stroke-linecap="round"/>
+<path d="M120 290L430 175L705 250L1060 155" fill="none" stroke="#25a18e" stroke-width="6" stroke-dasharray="12 10" stroke-linecap="round"/>
+<path d="M130 180L260 140" stroke="#d17a36" stroke-width="7" stroke-linecap="round"/><path d="M830 295L960 275" stroke="#d17a36" stroke-width="7" stroke-linecap="round"/>
+<g font-family="Arial" font-size="17" font-weight="700"><text x="90" y="345" fill="#243f50">Reference fault</text><text x="380" y="345" fill="#168575">Nearby prediction</text><text x="825" y="345" fill="#b86627">Distant prediction / mismatch</text></g>
+<circle cx="270" cy="220" r="28" fill="#25a18e" opacity=".16" stroke="#25a18e" stroke-width="2"/><circle cx="270" cy="220" r="8" fill="#25a18e"/>
+<text x="50" y="375" font-family="Arial" font-size="14" fill="#45616b">Distance tolerance in the archived analysis: 300 m. The reported alpha=0.2 and beta=0.8 weight false-positive and false-negative contributions asymmetrically.</text>
+</svg>
