@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650" role="img" aria-labelledby="t d">
+<title id="t">From geological structure to prospectivity map</title><desc id="d">Educational cross-section showing rock layers, a fault, geothermal fluid circulation, geophysical observations, and a map grid.</desc>
+<rect width="1200" height="650" rx="22" fill="#f5f7f4"/><text x="55" y="65" font-family="Arial" font-size="32" font-weight="700" fill="#173747">HOW GEOLOGICAL PROSPECTIVITY MAPPING WORKS</text>
+<text x="55" y="102" font-family="Arial" font-size="18" fill="#45616b">Conceptual illustration — not a measured cross-section or a confirmed fault location</text>
+<path d="M50 240Q250 190 450 235T850 225T1150 235V560H50Z" fill="#d8c2a0"/>
+<path d="M50 320Q250 270 450 315T850 305T1150 315V560H50Z" fill="#b58d68"/>
+<path d="M50 415Q250 365 450 410T850 400T1150 410V560H50Z" fill="#806d5c"/>
+<path d="M50 500Q250 450 450 495T850 485T1150 495V560H50Z" fill="#52616a"/>
+<path d="M610 220L520 560" stroke="#f4e4b5" stroke-width="13"/><path d="M610 220L520 560" stroke="#4d3b32" stroke-width="3" stroke-dasharray="10 8"/>
+<path d="M680 490C620 430 650 370 590 325S560 270 580 245" fill="none" stroke="#2b9cbd" stroke-width="9" stroke-linecap="round"/><path d="M705 490C655 430 680 380 620 335" fill="none" stroke="#2b9cbd" stroke-width="4" stroke-linecap="round"/>
+<g fill="#173747" font-family="Arial" font-size="18"><text x="85" y="205">Surface / terrain</text><text x="85" y="355">Rock units</text><text x="720" y="380">Possible fluid pathways</text><text x="720" y="410" font-size="15">Conceptual geothermal circulation</text><text x="390" y="590">Fault / fracture zone</text></g>
+<path d="M480 575L540 510" stroke="#173747" stroke-width="2"/>
+<g transform="translate(80 125)"><rect width="260" height="60" rx="12" fill="#e1ece8" stroke="#7ba99b"/><text x="18" y="25" font-family="Arial" font-size="16" fill="#173747" font-weight="700">GEOPHYSICAL EVIDENCE</text><text x="18" y="46" font-family="Arial" font-size="14" fill="#45616b">e.g., magnetic / gravity / terrain</text></g>
+<g transform="translate(850 125)"><rect width="280" height="60" rx="12" fill="#e1ece8" stroke="#7ba99b"/><text x="18" y="25" font-family="Arial" font-size="16" fill="#173747" font-weight="700">SPATIAL MODEL OUTPUT</text><text x="18" y="46" font-family="Arial" font-size="14" fill="#45616b">relative prospectivity scores</text></g>
+<text x="55" y="625" font-family="Arial" font-size="14" fill="#45616b">A prospectivity score prioritizes places for investigation; it does not prove a fault, reservoir, or geothermal resource.</text>
+</svg>
