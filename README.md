@@ -381,3 +381,71 @@ For a reproducible run, record:
 *Supporting data-driven geological interpretation and geothermal exploration.*
 
 </div>
+
+---
+
+## 🧭 Geological Concepts: Read the Map Before Reading the Model
+
+GEMS is a **geospatial prospectivity workflow**. Its outputs are best understood by connecting the model to the geological processes and measurements that motivate exploration.
+
+### 1. What is a geological fault?
+
+A fault is a fracture or zone of fractures in rock along which blocks have moved relative to one another. Faults can create pathways for fluids, juxtapose different rock units, and influence permeability. In geothermal settings, faults and fracture networks may help hot fluids circulate—but not every fault is permeable, active, or associated with a usable geothermal system.
+
+### 2. What is geothermal prospectivity?
+
+A geothermal system generally requires a heat source, fluids, and permeable pathways or reservoir rocks, commonly beneath a suitable cap rock. Exploration therefore combines several kinds of evidence: regional geology, structural interpretation, geochemistry, temperature information, and geophysical measurements.
+
+A prospectivity map combines selected evidence to highlight areas that may deserve further investigation. It is a prioritization aid, not a direct measurement of underground temperature, permeability, or commercial viability.
+
+### 3. What do geophysical measurements tell us?
+
+Geophysical methods infer subsurface properties from measurements made at or near the surface. Different methods respond to different physical properties:
+
+| Method / data family | Main physical sensitivity | Common geological use |
+|---|---|---|
+| Magnetic | Variations in magnetic susceptibility and remanent magnetization | Mapping lithology, intrusions, and structural trends |
+| Gravity | Variations in subsurface density | Identifying density contrasts, basins, and larger structures |
+| Electrical resistivity / electromagnetic | How strongly materials oppose or conduct electrical current | Investigating fluids, alteration, clay-rich zones, and rock properties |
+| Topography / DEM | Surface elevation and landform geometry | Terrain context, drainage, lineament interpretation, and spatial derivatives |
+| Remote sensing | Surface reflectance and spectral response | Mapping exposed lithology, alteration indicators, and land cover |
+
+These methods are complementary, not interchangeable. A magnetic anomaly is not itself a fault; a low-resistivity zone is not automatically a geothermal reservoir. Interpretation depends on geology, scale, data quality, and independent evidence.
+
+### 4. From measurements to a spatial prediction
+
+The archived GEMS analysis reports a 100 m nominal grid, EPSG:32611, and 43 predictors. Conceptually, spatial predictors are aligned to a common grid, transformed into model-ready features, and used to produce a score for each eligible cell. The score represents the model's relative prediction under its training and evaluation setup—not a probability of drilling success unless it has been calibrated and validated for that meaning.
+
+![Conceptual geological cross-section and prospectivity mapping](Figures/gems-geology-concepts.svg)
+
+**Figure 14.** Conceptual illustration of geological structures, possible fluid pathways, geophysical evidence, and spatial model output. It is explanatory, not a site-specific geological interpretation.
+
+### 5. How to interpret the distance-weighted Tversky metric
+
+The conventional Tversky index is:
+
+`T = TP / (TP + α·FP + β·FN)`
+
+Here, α controls the false-positive penalty and β controls the false-negative penalty. With α = 0.2 and β = 0.8, missed reference features carry a larger nominal penalty than extra predicted features, before considering the competition's distance-weighting procedure.
+
+The archived analysis uses a 300 m distance tolerance. Distance weighting is important for line-like geological targets because a predicted trace slightly offset from a reference trace may still be spatially relevant. The exact official score must nevertheless be calculated with the competition's official implementation and data protocol.
+
+![Conceptual distance-aware evaluation diagram](Figures/gems-distance-weighted-evaluation.svg)
+
+**Figure 15.** Conceptual explanation of near and distant prediction errors. Geometry is illustrative and does not reproduce the official scoring implementation.
+
+### 6. Important distinctions
+
+- **Fault mapping is not earthquake prediction.** This project does not forecast earthquakes or estimate seismic hazard.
+- **Prospectivity is not discovery.** A high-scoring cell is a candidate for follow-up, not proof of a geothermal resource.
+- **Correlation is not causation.** Feature importance and spatial association do not establish a geological mechanism.
+- **Resolution is not accuracy.** A 100 m grid describes the nominal cell spacing; it does not mean the subsurface is known to 100 m precision.
+- **Validation must respect geography.** Randomly splitting neighboring pixels can overstate generalization because nearby cells may share spatial structure. Spatially separated validation is an important next step.
+
+### Suggested reading
+
+- [USGS — Geologic Faults](https://www.usgs.gov/programs/earthquake-hazards/faults)
+- [USGS — Geophysical Methods](https://www.usgs.gov/centers/geomagnetism/science)
+- [NREL — Geothermal Basics](https://www.nrel.gov/research/re-geothermal.html)
+- [DrivenData — GEMS Prize Challenge](https://www.drivendata.org/competitions/306/)
+
