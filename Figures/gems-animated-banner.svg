@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="390" viewBox="0 0 1400 390" role="img" aria-labelledby="title desc">
+<title id="title">GEMS — Geologic Enhanced Mapping System</title>
+<desc id="desc">Animated geological strata and a glowing fault trace beneath a pulsing geospatial prospectivity contour map.</desc>
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071827"/><stop offset=".55" stop-color="#10394a"/><stop offset="1" stop-color="#071e2d"/></linearGradient>
+ <linearGradient id="rock" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#d8ad78"/><stop offset="1" stop-color="#765647"/></linearGradient>
+ <radialGradient id="glow"><stop stop-color="#75e0ce" stop-opacity=".5"/><stop offset="1" stop-color="#75e0ce" stop-opacity="0"/></radialGradient>
+ <filter id="soft"><feGaussianBlur stdDeviation="5"/></filter>
+ <clipPath id="clip"><rect x="0" y="0" width="1400" height="390" rx="26"/></clipPath>
+</defs>
+<style>
+ .contour{fill:none;stroke:#77d6c7;stroke-width:2;opacity:.48;stroke-dasharray:9 11;animation:drift 18s linear infinite}
+ .contour:nth-child(2n){animation-duration:24s;animation-direction:reverse;opacity:.3}
+ .pulse{transform-box:fill-box;transform-origin:center;animation:pulse 4s ease-in-out infinite}
+ .pulse.delay{animation-delay:1.3s}
+ .faultGlow{stroke:#f4d18b;stroke-width:18;opacity:.18;filter:url(#soft);animation:glow 3.5s ease-in-out infinite}
+ .fault{stroke:#f6d89b;stroke-width:4;stroke-dasharray:16 10;animation:trace 9s linear infinite}
+ .particle{fill:#b9f5e9;filter:url(#soft);animation:float 7s ease-in-out infinite}
+ @keyframes drift{to{stroke-dashoffset:-220}}
+ @keyframes pulse{0%,100%{transform:scale(.88);opacity:.42}50%{transform:scale(1.12);opacity:.95}}
+ @keyframes glow{0%,100%{opacity:.12}50%{opacity:.42}}
+ @keyframes trace{to{stroke-dashoffset:-208}}
+ @keyframes float{0%,100%{transform:translateY(0);opacity:.25}50%{transform:translateY(-18px);opacity:.95}}
+</style>
+<g clip-path="url(#clip)">
+ <rect width="1400" height="390" fill="url(#bg)"/>
+ <g opacity=".22" stroke="#5fa99f" stroke-width="1"><path d="M0 70H1400M0 130H1400M0 190H1400M0 250H1400M0 310H1400"/><path d="M760 0V390M850 0V390M940 0V390M1030 0V390M1120 0V390M1210 0V390M1300 0V390"/></g>
+ <path d="M0 220Q180 170 360 215T720 210T1080 200T1400 205V390H0Z" fill="#284d55"/>
+ <path d="M0 255Q180 205 360 250T720 245T1080 235T1400 240V390H0Z" fill="#8b7058"/>
+ <path d="M0 300Q180 250 360 295T720 290T1080 280T1400 285V390H0Z" fill="url(#rock)"/>
+ <path d="M520 185L435 390" class="faultGlow"/><path d="M520 185L435 390" class="fault"/>
+ <g fill="none">
+  <path class="contour" d="M810 65c85-75 205-55 245 12s-28 112-110 107-105 62-20 92 175 0 215-55 125-54 175-8"/>
+  <path class="contour" d="M835 92c65-56 160-40 190 12s-24 82-82 78-80 46-15 68 135 0 165-40 96-39 132-6"/>
+  <path class="contour" d="M875 118c43-37 112-27 132 8s-16 55-57 53-57 32-10 47 94 0 115-28 67-28 93-4"/>
+  <path class="contour" d="M1080 40c55-26 113-8 135 30s-5 69-47 72-55 31-20 51"/>
+ </g>
+ <circle class="pulse" cx="1010" cy="180" r="100" fill="url(#glow)"/>
+ <circle class="pulse delay" cx="1200" cy="250" r="62" fill="url(#glow)"/>
+ <circle class="particle" cx="920" cy="95" r="5"/><circle class="particle" cx="1140" cy="105" r="4" style="animation-delay:2s"/><circle class="particle" cx="1290" cy="185" r="5" style="animation-delay:3.5s"/>
+ <g font-family="Arial,Helvetica,sans-serif">
+  <text x="76" y="128" fill="#f4f8f5" font-size="72" font-weight="700" letter-spacing="5">GEMS</text>
+  <text x="81" y="171" fill="#a8ded3" font-size="22" letter-spacing="3">GEOLOGIC ENHANCED MAPPING SYSTEM</text>
+  <path d="M82 196H480" stroke="#72cbbd" stroke-width="3"/>
+  <text x="82" y="245" fill="#f4f8f5" font-size="19" letter-spacing="1.4">GEOPHYSICS  •  SPATIAL MACHINE LEARNING</text>
+  <text x="82" y="276" fill="#f4f8f5" font-size="19" letter-spacing="1.4">FAULT PROSPECTIVITY  •  TARGET EVALUATION</text>
+  <text x="82" y="342" fill="#a8c8c8" font-size="14" letter-spacing="2">READ THE SUBSURFACE THROUGH SPATIAL EVIDENCE</text>
+ </g>
+</g></svg>
