@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="360" viewBox="0 0 1400 360" role="img" aria-labelledby="t d">
+<title id="t">GEMS — Geologic Enhanced Mapping System</title><desc id="d">Stylized geological strata, fault line, and geospatial prospectivity contours.</desc>
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#071b2b"/><stop offset="1" stop-color="#123e50"/></linearGradient><linearGradient id="earth" x2="0" y2="1"><stop stop-color="#d9a76c"/><stop offset="1" stop-color="#7c5948"/></linearGradient></defs>
+<rect width="1400" height="360" rx="24" fill="url(#bg)"/>
+<g opacity=".25" stroke="#7cc9c0" fill="none"><path d="M700 0Q850 90 720 180T760 360"/><path d="M780 0Q930 90 800 180T840 360"/><path d="M860 0Q1010 90 880 180T920 360"/><path d="M940 0Q1090 90 960 180T1000 360"/></g>
+<path d="M0 195 Q180 155 360 195 T700 195 L700 360H0Z" fill="#264e58"/><path d="M0 230 Q180 190 360 230 T700 230 L700 360H0Z" fill="#8c7155"/><path d="M0 270 Q180 230 360 270 T700 270 L700 360H0Z" fill="url(#earth)"/>
+<path d="M505 165L450 360" stroke="#f2d18b" stroke-width="8" stroke-dasharray="13 9"/><path d="M460 190L400 360" stroke="#f2d18b" stroke-width="2" opacity=".6"/>
+<g fill="none" stroke="#79d4c4" stroke-width="2" opacity=".8"><path d="M900 80c80-70 180-50 210 10s-30 100-100 95-90 55-20 85 160 5 190-45"/><path d="M930 100c60-50 140-35 160 10s-25 70-80 65-70 40-15 65 125 0 150-35"/><path d="M970 120c40-30 95-20 110 10s-20 40-55 38-45 25-10 40 90-5 105-25"/></g>
+<text x="70" y="105" fill="#f3f7f4" font-family="Arial,sans-serif" font-size="58" font-weight="700" letter-spacing="3">GEMS</text>
+<text x="74" y="145" fill="#a9dcd2" font-family="Arial,sans-serif" font-size="21" letter-spacing="2">GEOLOGIC ENHANCED MAPPING SYSTEM</text>
+<text x="74" y="315" fill="#f3f7f4" font-family="Arial,sans-serif" font-size="18">GEOPHYSICS  •  SPATIAL MACHINE LEARNING  •  FAULT PROSPECTIVITY</text>
+</svg>
