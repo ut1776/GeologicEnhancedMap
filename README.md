@@ -1,5 +1,5 @@
 
-<div align="center">
+<div align="center">\n\n<p><img src="Figures/gems-animated-banner.svg" alt="Animated GEMS geological mapping banner" width="100%"></p>
 
 # 🌎 GEMS
 
